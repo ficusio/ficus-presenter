@@ -15,6 +15,16 @@
     "tests"
   ],
   "dependencies": {
-    "jquery": "~2.1.1"
+    "jquery": "~2.1.1",
+    "reveal.js": "~2.6.2"
+  },
+  "overrides": {
+    "reveal.js": {
+      "main": [
+        "css/reveal.min.css",
+        "js/reveal.min.js",
+        "lib/js/head.min.js"
+      ]
+    }
   }
 }
