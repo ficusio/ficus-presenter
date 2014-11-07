@@ -1,0 +1,33 @@
+{
+  "name": "brunch-for-homeless",
+  "version": "0.0.0",
+  "repository": "none",
+  "readme": "README.md",
+  "description": "Brunch skeleton for homeless guys, who are ready to make landing pages for food",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Are you kidding?\""
+  },
+  "keywords": [
+    "brunch",
+    "skeleton",
+    "homeless",
+    "food",
+    "landing",
+    "workforfood"
+  ],
+  "author": "molefrog",
+  "license": "MIT",
+  "devDependencies": {
+    "clean-css-brunch": "~1.7.1",
+    "coffee-script-brunch": "~1.8.0",
+    "uglify-js-brunch": "~1.7.7",
+    "css-brunch": "~1.7.0",
+    "javascript-brunch": "~1.7.1",
+    "stylus-brunch": "~1.8.0",
+    "auto-reload-brunch": "~1.7.3",
+    "bower": "~1.3.3",
+    "jaded-brunch": "~1.7.11"
+  },
+  "dependencies": {}
+}
