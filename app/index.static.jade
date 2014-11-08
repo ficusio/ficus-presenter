@@ -30,6 +30,13 @@ html(lang='ru')
             .message-header <%= header %>
             .message-content <%= message %>
 
+    //- Счетчик слушателей презентации
+    script#participants-template(type='text/template')
+      .meter
+        .count-next 0
+        .count 0
+      .people
+
   body
     .messages-container
 
@@ -43,27 +50,25 @@ html(lang='ru')
     .reveal
       .slides
         section(data-slide-name='1')
-          h3 Кто самый крутой?
-          #poll
+          h2 Первый слайд с картинкой
 
         section(data-slide-name='2')
-          h1 Слайд 2
+          h2 Второй слайд с картинкой
 
         section(data-slide-name='3')
-          h3 Подзаголовок
-          p привет из слайда 2
+          h2 codehipsters.com
+          .participants-container
 
         section(data-slide-name='4')
-          h3 Слайд с чуваками
+          h2 Управляйте скоростью лектора
 
-          button(onclick="drawHumans($('.human').length + 1);")
-          button(onclick="drawHumans($('.human').length - 1);")
+        section(data-slide-name='5')
+          h2 Слайд с опросом
 
-          #participants-container
-            .meter
-              .count-next 0
-              .count 0
+        section(data-slide-name='6')
+          h2 Результат опроса
 
-            .people
+        section(data-slide-name='7')
+          h2 Наши контакты
 
 

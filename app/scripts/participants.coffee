@@ -1,26 +1,36 @@
-window.drawHumans = (amount) ->
-  root = $('#participants-container')
-  currentCount = root.find('.human').length
+TEMPLATE_SELECTOR = '#participants-template'
+ANIMATION_DURATION = 200
 
-  if currentCount > amount
-    for i in [amount..currentCount - 1]
-      root.find('.human').last().remove()
-  else
-    for i in [currentCount..amount - 1]
-      root.find('.people').append( '<div class="human icon-person"></div>' )
+module.exports = class Participants
+  constructor: (@api, @rootSelector) ->
+    @templateFunc = _.template($(TEMPLATE_SELECTOR).html())
+    $(@rootSelector).html( @templateFunc() )
 
-  countNext    = root.find('.count-next')
-  countCurrent = root.find('.count')
-  container    = root.find('.meter')
+    # Слушаем изменение людей
+    @api.$listenerCount.onValue _.bind(@drawHumans, @)
 
-  countNext.text(amount)
-  container.addClass('changed')
+  drawHumans: (amount) ->
+    root = $(@rootSelector)
+    currentCount = root.find('.human').length
 
-  setTimeout (->
-    container.removeClass('changed')
-    countCurrent.text(countNext.text())
+    if currentCount > amount
+      for i in [amount..currentCount - 1]
+        root.find('.human').last().remove()
+    else
+      for i in [currentCount..amount - 1]
+        root.find('.people').append( '<div class="human icon-person"></div>' )
 
-    ), 200
+    countNext    = root.find('.count-next')
+    countCurrent = root.find('.count')
+    container    = root.find('.meter')
+
+    countNext.text(amount)
+    container.addClass('changed')
+
+    setTimeout ->
+      container.removeClass('changed')
+      countCurrent.text(countNext.text())
+    , ANIMATION_DURATION
 
 
 

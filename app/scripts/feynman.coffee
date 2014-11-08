@@ -3,7 +3,7 @@ module.exports = class Feynman
   SPEED_INDICATOR_CLASS = '.speed-indicator'
 
   constructor: (@api) ->
-    # ...
+    @api.$audienceMood.onValue _.bind(@updateSpeedIndicator, @)
 
   updateSpeedIndicator: (value) ->
     value = Math.sign(value) if Math.abs(value) > 1
