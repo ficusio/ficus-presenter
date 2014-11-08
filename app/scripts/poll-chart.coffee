@@ -1,6 +1,11 @@
 CHART_DEFAULT_WIDTH   = 800.0
 CHART_DEFAULT_HEIGHT  = 600.0
 
+# Мы за безопасный секс
+safeFraction = (a, b) ->
+  return 0.0 if b is 0
+  a / b
+
 module.exports = class PollChart
   ###
   # Параметры
@@ -8,12 +13,18 @@ module.exports = class PollChart
   labelsColor: '#000000'
   labelsFont:  'Roboto'
   labelsSize:  '28px'
+
+  # Отступы между столбиками и подписями
   labelsHeight:  60
   labelsPadding: 10
 
-  barOuterPad:  0
+  # Отступы между столиками
+  barOuterPad:  0.1
   barPad:       0.05
   barAnimationDuration: 200
+  barMinValue:  0.01
+
+  sexyRatio: 0.8
 
   ###
   # Конструктор
@@ -41,7 +52,9 @@ module.exports = class PollChart
   # TODO: не работает при изменении количества элементов в опросе!
   ###
   updateData: (pollData) ->
-    dataLength    = pollData.length
+    dataLength = pollData.length
+
+    max = d3.max pollData, (d) -> d.weight
 
     scaleX = d3.scale.ordinal()
       .domain([0...dataLength])
@@ -60,7 +73,10 @@ module.exports = class PollChart
       .transition()
         .ease('linear')
         .duration(@barAnimationDuration)
-        .attr('height', (d) => d.x * @barsHeight)
+        .attr('height', (d) =>
+          x = @sexyRatio * safeFraction(d.weight, max)
+          bmin = @barMinValue * @height
+          bmin + (@height - bmin) * x)
         .attr('y', (d) => 0)
 
     @svg.select('g.labels')

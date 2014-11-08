@@ -74,11 +74,22 @@ $ ->
     'Суздалев', 'Тактаров', 'Козин'
   ]
 
+  l = 4
+  data = _.map [0...l], (x,i) ->
+    color: hipsterColors[i]
+    label: hipsters[i]
+    weight: 0
+    count:  0
+
   (update = ->
-    data = _.map [1..5], (x,i) ->
-      color: hipsterColors[i]
-      label: hipsters[i]
-      x: Math.random()
+    data[_.random(0, l-1)].count += 1
+
+    sum = d3.sum data, (d) -> d.count
+    _.each data, (d) ->
+      x = 0
+      if sum isnt 0
+        x = d.count / sum
+      d.weight = x
 
     chart.updateData(data)
     setTimeout update, _.random(60, 300)
