@@ -15,7 +15,7 @@ module.exports = class PollChart
   labelsSize:  '28px'
 
   # Отступы между столбиками и подписями
-  labelsHeight:  60
+  labelsHeight:  80
   labelsPadding: 10
 
   # Отступы между столиками
