@@ -1,0 +1,92 @@
+@import 'nib'
+
+barHeight = 30px
+
+.speed-indicator
+  position fixed
+  z-index 100
+  width 580px
+  height barHeight - 2
+  border-radius 6px
+  border 1px solid rgba(0,0,0,0.1)
+  left 50%
+  transform translateX(-50%)
+  bottom 10px
+
+  /***
+   * Background
+   ***/
+  .left-background,
+  .right-background
+    background url("/bar-background-left.png")
+    background-size contain
+    background-position -16px
+    height 100%
+    width 50%
+    display block
+    float left
+
+  .right-background
+    background-image url("/bar-background-right.png")
+    background-position 16px
+
+
+  /***
+   * Middle
+   ***/
+  .middle
+    display none
+    position absolute
+    height barHeight
+    width 4px
+    background #3eec7c
+    left 50%
+    top -1px
+    transform translateX(-50%)
+
+
+  /***
+   * Bars
+   ***/
+  @keyframes flowright
+    0%
+      background-position 0px
+    100%
+      background-position (50 * barHeight/40)
+
+  @keyframes flowleft
+    0%
+      background-position 0px
+    100%
+      background-position (-50 * barHeight/40)
+
+  @keyframes pulse
+    0%
+      opacity 0.65
+    50%
+      opacity 1
+    100%
+      opacity 0.60
+
+  .slow-bar, .fast-bar
+    position absolute
+    height barHeight
+    top -1px
+    z-index 1
+
+  .slow-bar
+    width 33%
+    right 50%
+    border-radius 6px 0 0 6px
+    background url("/slow-bar.png")
+    background-size contain
+    animation flowleft 1s linear infinite, pulse 0.5s ease-in infinite
+
+  .fast-bar
+    width 33%
+    left 50%
+    border-radius 0 6px 6px 0
+    background url("/fast-bar.png")
+    background-size contain
+    animation flowright 1s linear infinite, pulse 0.5s ease-in infinite
+
