@@ -15,6 +15,7 @@ module.exports = class API
     @$initialState = @_.$initialState.toProp()
     @$listenerCount = @_.$listenerCount.toProp()
     @$audienceMood = @_.$audienceMood.toProp()
+    @$audienceMessages = @_.$audienceMessages
     @$pollState = @_.$pollState.toProp()
 
 
@@ -53,7 +54,7 @@ module.exports = class API
 class APIImpl
 
   constructor: (@apiEndpoint, @presentationId = 'dummy_id') ->
-    
+
     @initialState = if Math.random() < 0.5
       state: API.PresentationState.NOT_STARTED
       listenerCount: 1
@@ -73,6 +74,7 @@ class APIImpl
     @$listenerCount = new Bacon.Bus
     @$audienceMood = new Bacon.Bus
     @$pollState = new Bacon.Bus
+    @$audienceMessages = new Bacon.Bus
 
     @$listenerCount.plug @$initialState.map('.listenerCount').skipNulls()
     @$audienceMood.plug @$initialState.map('.audienceMood').skipNulls()
@@ -92,9 +94,11 @@ class APIImpl
   initEvents: ->
     @$listenerCountSrc = randomStream 500, 3000, @initialState.listenerCount, randomizeListenerCount
     @$audienceMoodSrc = randomStream 100, 200, @initialState.audienceMood, randomizeMood
+    @$audienceMessagesSrc = randomStream 1000, 20000, null, randomMessage
     noPoll = => not @pollId?
     @$listenerCount.plug @$listenerCountSrc
     @$audienceMood.plug @$audienceMoodSrc.filter noPoll
+    @$audienceMessages.plug @$audienceMessagesSrc
 
 
   setSlideId: (id) ->
@@ -126,7 +130,7 @@ class APIImpl
     if @pollId? then @stopPoll()
     @$listenerCountSrc.end()
     @$audienceMoodSrc.end()
-    @$pollState.end()
+    @$audienceMessagesSrc.end()
     @state = API.PresentationState.ENDED
 
 
@@ -166,6 +170,20 @@ class APIImpl
     _.each newPollState, (opt) -> opt.weight = opt.count / newTotal
 
 
+  randomMessage = do ->
+    messages = [
+      { type: 'twitter', userId: 'epshenichniy', message: 'бобры пожрут планету' }
+      { type: 'inapp', userId: '1', message: 'кто здесь?' }
+      { type: 'inapp', userId: '2', message: 'уруру уруру' }
+      { type: 'inapp', userId: '3', message: 'Cookies are a contract between a browser and an
+                                 http server, and are identified by a domain name. If a browser
+                                 has a cookie set for particular domain, it will pass it as a part
+                                 of all http requests to the host.' }
+      { type: 'twitter', userId: 'ururu', message: 'greetings from Urugvai!' }
+    ]
+    -> messages[ Math.floor messages.length * Math.random() ]
+
+  
   randomStream = (minIntv, maxIntv, initialValue, valueRandomizer) ->
     $bus = new Bacon.Bus
     lastValue = initialValue

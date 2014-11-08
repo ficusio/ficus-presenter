@@ -22,6 +22,7 @@ $ ->
 
     api.$listenerCount.log '$listenerCount'
     api.$audienceMood.log '$audienceMood'
+    api.$audienceMessages.map(stringify).log '$audienceMessages'
     api.$pollState.map(stringify).log '$pollState'
 
     api.startPresentation 1
