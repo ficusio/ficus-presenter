@@ -16,7 +16,8 @@
   ],
   "dependencies": {
     "jquery": "~2.1.1",
-    "reveal.js": "~2.6.2"
+    "reveal.js": "~2.6.2",
+    "underscore": "~1.7.0"
   },
   "overrides": {
     "reveal.js": {
