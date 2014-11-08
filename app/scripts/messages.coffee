@@ -3,8 +3,8 @@ module.exports = class Message
   MESSAGES_CONTAINER_CLASS = '.messages-container'
   TEMPLATE_CONTAINER_ID = '#message'
   MESSAGE_HEADER = 'Новый вопрос'
-  MAX_MESSAGES = 4
-  MESSAGE_DURATION = 25000
+  MAX_MESSAGES = 5
+  MESSAGE_DURATION = 20000
 
   constructor: (@api) ->
     templateString = $(TEMPLATE_CONTAINER_ID).html()
@@ -28,7 +28,7 @@ module.exports = class Message
         if @messagesBuffer.length > 0
           itemForShow = @messagesBuffer.pop()
           defferedShowMsg = (iter) =>
-            _.delay((=> @showMessage(itemForShow)), Number(iter) * 1000)
+            _.delay((=> @showMessage(itemForShow)), Number(iter) * 1500)
           defferedShowMsg(i)
 
     setInterval checkMessages, 500
@@ -39,12 +39,15 @@ module.exports = class Message
 
       performDeleteMsg = (mess) ->
         removeFromDom = ->
-          mess.$msg.removeClass('min-height-message').find('.message-body-wrapper').removeClass('min-height-message-body-wrapper')
+          h = mess.$msg.height()
+          mess.$msg.height(h)
+          mess.$msg.removeClass('message')
+          mess.$msg.empty()
           slideToggleMsg = () ->
-            mess.$msg.slideToggle( "fast", ->
+            mess.$msg.slideToggle( "slow", ->
               mess.$msg.remove()
             )
-          setTimeout slideToggleMsg, 100
+          setTimeout slideToggleMsg, 10
           
         _.delay(removeFromDom, 700)
 
