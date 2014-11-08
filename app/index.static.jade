@@ -22,7 +22,7 @@ html(lang='ru')
     //- ---
     script#message(type='text/template')
       .message.min-height-message
-        .message-icon-wrapper 
+        .message-icon-wrapper
           .message-icon
             img(src='message-icon.png', alt='Smiley face', height='34', width='34')
         .message-body-wrapper.min-height-message-body-wrapper
@@ -49,11 +49,10 @@ html(lang='ru')
 
     .reveal
       .slides
-        section(data-slide-name='bored-audience-1')
-          h2 Первый слайд с картинкой
+        section(data-slide-name='bored-audience-1' data-background='bored-audience.png')
+          h2.presentations-are-boring Презентации – это&nbsp;скучно
 
-        section(data-slide-name='bored-audience-2')
-          h2 Второй слайд с картинкой
+        section(data-slide-name='bored-audience-2' data-background='asians.png')
 
         section(data-slide-name='participants')
           h2 codehipsters.com
