@@ -1,0 +1,128 @@
+@import 'nib'
+
+@keyframes nextNumberTop
+  0%
+    transform translateY(-100%)
+    opacity 0
+  100%
+    transform translateY(0)
+    opacity 1
+
+@keyframes nextNumberBottom
+  0%
+    transform translateY(-100%)
+    opacity 1
+  100%
+    transform translateY(0)
+    opacity 0
+
+/***
+ * Стили для слайда с подключившимися чуваками
+ ***/
+#participants-container
+  width 800px
+  height 600px
+  position relative
+  margin 0 auto
+  margin-top 100px
+  clearfix()
+
+  .people
+    width 560px
+    height 400px
+    float right
+    text-align left
+    margin-left 50px
+    margin-top 30px
+    color #d84a00
+
+    .human
+      display inline-block
+      font-size 50px
+      line-height 60px
+
+  .meter
+    float left
+    text-align right
+    width 160px
+
+    .count, .count-next
+      font-size 200px
+      font-weight 600
+      line-height 240px
+      letter-spacing -10px
+      transform translateY(-100%)
+      transition transform 0.2s ease-in, opacity 0.2s ease-in
+
+    .count
+      opacity 1
+
+    .count-next
+      opacity 0
+
+    &.changed
+      .count-next
+        animation nextNumberTop 0.2s ease-in
+
+      .count
+        animation nextNumberBottom 0.2s ease-in
+
+
+
+
+/***
+ * Шрифты
+ ***/
+ @font-face {
+  font-family: 'man';
+  src: url('../fonts/participants/man.eot?81823849');
+  src: url('../fonts/participants/man.eot?81823849#iefix') format('embedded-opentype'),
+       url('../fonts/participants/man.woff?81823849') format('woff'),
+       url('../fonts/participants/man.ttf?81823849') format('truetype'),
+       url('../fonts/participants/man.svg?81823849#man') format('svg');
+  font-weight: normal;
+  font-style: normal;
+}
+/* Chrome hack: SVG is rendered more smooth in Windozze. 100% magic, uncomment if you need it. */
+/* Note, that will break hinting! In other OS-es font will be not as sharp as it could be */
+/*
+@media screen and (-webkit-min-device-pixel-ratio:0) {
+  @font-face {
+    font-family: 'man';
+    src: url('../font/man.svg?81823849#man') format('svg');
+  }
+}
+*/
+
+ [class^="icon-"]:before, [class*=" icon-"]:before {
+  font-family: "man";
+  font-style: normal;
+  font-weight: normal;
+  speak: none;
+
+  display: inline-block;
+  text-decoration: inherit;
+  width: 20px;
+  margin-right: .2em;
+  text-align: center;
+  /* opacity: .8; */
+
+  /* For safety - reset parent styles, that can break glyph codes*/
+  font-variant: normal;
+  text-transform: none;
+
+  /* fix buttons height, for twitter bootstrap */
+  line-height: 1em;
+
+  /* Animation center compensation - margins should be symmetric */
+  /* remove if not needed */
+  margin-left: .1em;
+
+  /* you can be more comfortable with increased icons size */
+  /* font-size: 120%; */
+
+  /* Uncomment for 3D effect */
+  /* text-shadow: 1px 1px 1px rgba(127, 127, 127, 0.3); */
+}
+
+.icon-person:before { content: '\e800'; } /* '' */

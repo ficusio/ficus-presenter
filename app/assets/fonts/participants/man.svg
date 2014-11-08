@@ -1,0 +1,12 @@
+<?xml version="1.0" standalone="no"?>
+<!DOCTYPE svg PUBLIC "-//W3C//DTD SVG 1.1//EN" "http://www.w3.org/Graphics/SVG/1.1/DTD/svg11.dtd">
+<svg xmlns="http://www.w3.org/2000/svg">
+<metadata>Copyright (C) 2014 by original authors @ fontello.com</metadata>
+<defs>
+<font id="man" horiz-adv-x="1000" >
+<font-face font-family="man" font-weight="400" font-stretch="normal" units-per-em="1000" ascent="850" descent="-150" />
+<missing-glyph horiz-adv-x="1000" />
+<glyph glyph-name="person" unicode="&#xe800;" d="m0 238l0 275q0 71 47 96 17 8 41 8l207 0q23 0 43-8 59-29 59-96l0-275q-4-31-31-28t-28 28l0 262q-2 9-18 7t-15-7l0-600q-4-27-26-36t-42 4-20 34l0 365q-4 18-22 15t-17-15l0-365q-2-29-25-38t-42 3-21 33l0 600q-4 9-18 7t-15-7l0-262q-4-31-31-28t-26 28z m102 505q0 40 28 68t68 28 69-28 28-68-28-68-69-29-68 29-28 68z" horiz-adv-x="396" />
+</font>
+</defs>
+</svg>

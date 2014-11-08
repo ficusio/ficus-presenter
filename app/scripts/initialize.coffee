@@ -1,4 +1,5 @@
 require './utils'
+require './participants'
 
 API          = require './api'
 Feynman      = require './feynman'

@@ -50,5 +50,20 @@ html(lang='ru')
           h1 Слайд 2
 
         section(data-slide-name='3')
-          h1 Слайд 3
+          h3 Подзаголовок
+          p привет из слайда 2
+
+        section(data-slide-name='4')
+          h3 Слайд с чуваками
+
+          button(onclick="drawHumans($('.human').length + 1);")
+          button(onclick="drawHumans($('.human').length - 1);")
+
+          #participants-container
+            .meter
+              .count-next 0
+              .count 0
+
+            .people
+
 
