@@ -17,7 +17,10 @@ html(lang='ru')
     script.
       require('scripts/initialize');
 
-    script#message(type='text/template')    
+    //- ---
+    //- Клиентские шаблоны
+    //- ---
+    script#message(type='text/template')
       .message
         .message-icon-wrapper
           .message-icon
@@ -29,7 +32,7 @@ html(lang='ru')
 
   body
     .messages-container
-        
+
     .speed-indicator
       .left-background
         .slow-bar
@@ -39,11 +42,13 @@ html(lang='ru')
 
     .reveal
       .slides
-        section
+        section(data-slide-name='1')
           h3 Кто самый крутой?
           #poll
 
-        section
+        section(data-slide-name='2')
           h1 Слайд 2
-          h3 Подзаголовок
-          p привет из слайда 2
+
+        section(data-slide-name='3')
+          h1 Слайд 3
+

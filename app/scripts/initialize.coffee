@@ -1,11 +1,18 @@
-
 require './utils'
-API = require './api'
 
+API          = require './api'
+Feynman      = require './feynman'
+Messages     = require './messages'
+Presentation = require './presentation'
 
-initAPI = ->
-  api = new API '/api'
-  window.api = api # TODO: tmp
+###
+# Полная инициализация
+###
+$ ->
+  window.api          = new API '/api'
+  window.feynman      = new Feynman(api)
+  window.messages     = new Messages(api)
+  window.presentation = new Presentation(api)
 
   stringify = (obj) -> JSON.stringify obj, null, '  '
 
@@ -35,64 +42,5 @@ initAPI = ->
     setTimeout ( -> api.stopPoll() ), 15000
 
   api.$initialState.onValue init
-
-
-initAPI()
-
-
-###
-# Инициализация презентации
-###
-$ ->
-  Reveal.initialize
-    controls: false
-    progress: false
-    history: true
-    center: true
-    transition: 'fade'
-    dependencies: []
-
-  Feynman = require './speed-indicator'
-  window.feynman = new Feynman({})
-
-  Messages = require './messages'
-  window.messages = new Messages({})
-
-  ###
-  # Использование опросника
-  ###
-  PollChart = require './poll-chart'
-  chart = new PollChart('#poll')
-
-  hipsterColors = [
-    '#1abc9c', '#9b59b6', '#e74c3c'
-    '#f1c40f', '#95a5a6', '#16a085'
-  ]
-
-  hipsters = [
-    'Пшеничный', 'Адимов', 'Белоусько',
-    'Суздалев', 'Тактаров', 'Козин'
-  ]
-
-  l = 4
-  data = _.map [0...l], (x,i) ->
-    color: hipsterColors[i]
-    label: hipsters[i]
-    weight: 0
-    count:  0
-
-  (update = ->
-    data[_.random(0, l-1)].count += 1
-
-    sum = d3.sum data, (d) -> d.count
-    _.each data, (d) ->
-      x = 0
-      if sum isnt 0
-        x = d.count / sum
-      d.weight = x
-
-    chart.updateData(data)
-    setTimeout update, _.random(60, 300)
-  )()
 
 
