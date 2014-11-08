@@ -21,11 +21,11 @@ html(lang='ru')
     //- Клиентские шаблоны
     //- ---
     script#message(type='text/template')
-      .message
-        .message-icon-wrapper
+      .message.min-height-message
+        .message-icon-wrapper 
           .message-icon
             img(src='message-icon.png', alt='Smiley face', height='34', width='34')
-        .message-body-wrapper
+        .message-body-wrapper.min-height-message-body-wrapper
           .message-body
             .message-header <%= header %>
             .message-content <%= message %>

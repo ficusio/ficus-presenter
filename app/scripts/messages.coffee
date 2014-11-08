@@ -26,26 +26,29 @@ module.exports = class Message
       
       for i in _.range(msgForRemove.length)
         if @messagesBuffer.length > 0
-          # console.log msgForRemove.length
           itemForShow = @messagesBuffer.pop()
-          f = (iter) =>
-            _.delay((=> @showMessage(itemForShow)), Number(iter) * 600)
-          f(i)
-          # console.log 'UNBUFFERIZE', itemForShow ,@messagesBuffer
+          defferedShowMsg = (iter) =>
+            _.delay((=> @showMessage(itemForShow)), Number(iter) * 1000)
+          defferedShowMsg(i)
 
     setInterval checkMessages, 500
     
   removeMessages: (messagesForRemove) =>
     for message in messagesForRemove
       message.$msg.addClass('message-out')
-      # setTimeout (-> $msg.remove()), 1000
-      # _.delay(=> @showMessage(itemForShow), 1000)
-      f = (mess) ->
-        _.delay((-> mess.$msg.remove()), 700)
-      f(message)
 
-      # _.delay(=> @showMessage(itemForShow), Number(iter) * 600)
-      # message.$msg.delay(2000).remove()
+      performDeleteMsg = (mess) ->
+        removeFromDom = ->
+          mess.$msg.removeClass('min-height-message').find('.message-body-wrapper').removeClass('min-height-message-body-wrapper')
+          slideToggleMsg = () ->
+            mess.$msg.slideToggle( "fast", ->
+              mess.$msg.remove()
+            )
+          setTimeout slideToggleMsg, 100
+          
+        _.delay(removeFromDom, 700)
+
+      performDeleteMsg(message)
 
     @messages = _.difference @messages, messagesForRemove
 
@@ -55,7 +58,6 @@ module.exports = class Message
   showMessage: (content) ->
     if(@messages.length >= MAX_MESSAGES)
       @messagesBuffer.push(content)
-      # console.log 'BUFFERIZE', @messagesBuffer
     else
       timeAdd = moment(Date.now())
       $msg = $(@templateFunc({message : content, header: MESSAGE_HEADER}))
