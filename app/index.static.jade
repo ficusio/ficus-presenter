@@ -6,7 +6,9 @@ html(lang='ru')
 
     title Code Hipsters
 
-    //-
+    link(href='http://fonts.googleapis.com/css?family=Roboto+Slab:400,100,300,700|Roboto:400,100,300,500,700,900&subset=latin,cyrillic,cyrillic-ext' rel='stylesheet' type='text/css')
+
+    //- Следующие файлы генерируются сборщиком Brunch
     link(rel="stylesheet" href="stylesheets/app.css")
 
     script(src="javascripts/vendor.js")
@@ -38,9 +40,8 @@ html(lang='ru')
     .reveal
       .slides
         section
-          h1 Слайд 1
-          h3 Подзаголовок
-          p привет из слайда 1
+          h3 Кто самый крутой?
+          #poll
 
         section
           h1 Слайд 2

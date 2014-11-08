@@ -40,6 +40,9 @@ initAPI = ->
 initAPI()
 
 
+###
+# Инициализация презентации
+###
 $ ->
   Reveal.initialize
     controls: false
@@ -49,11 +52,36 @@ $ ->
     transition: 'fade'
     dependencies: []
 
-
   Feynman = require './speed-indicator'
   window.feynman = new Feynman({})
 
   Messages = require './messages'
   window.messages = new Messages({})
+
+  ###
+  # Использование опросника
+  ###
+  PollChart = require './poll-chart'
+  chart = new PollChart('#poll')
+
+  hipsterColors = [
+    '#1abc9c', '#9b59b6', '#e74c3c'
+    '#f1c40f', '#95a5a6', '#16a085'
+  ]
+
+  hipsters = [
+    'Пшеничный', 'Адимов', 'Белоусько',
+    'Суздалев', 'Тактаров', 'Козин'
+  ]
+
+  (update = ->
+    data = _.map [1..5], (x,i) ->
+      color: hipsterColors[i]
+      label: hipsters[i]
+      x: Math.random()
+
+    chart.updateData(data)
+    setTimeout update, _.random(60, 300)
+  )()
 
 
