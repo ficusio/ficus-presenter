@@ -24,7 +24,7 @@ module.exports = class PollChart
   barAnimationDuration: 200
   barMinValue:  0.01
 
-  sexyRatio: 0.8
+  sexyRatio: 0.7
 
   ###
   # Конструктор
@@ -93,6 +93,10 @@ module.exports = class PollChart
       .attr('fill', @labelsColor)
       .text (d) -> d.label
 
+  destroy: ->
+    @svg.remove()
 
+    # ай-ай-ай!
+    @isDestroyed = true
 
 

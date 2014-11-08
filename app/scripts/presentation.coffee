@@ -1,3 +1,5 @@
+PollChart = require './poll-chart'
+
 module.exports = class Presentation
   constructor: (@api) ->
     Reveal.initialize
@@ -8,42 +10,59 @@ module.exports = class Presentation
       transition: 'fade'
       dependencies: []
 
-    # Reveal.addEventListener 'slidechanged', (event) ->
-    #   console.log event.currentSlide
+    Reveal.addEventListener 'slidechanged', (event) =>
+      slide = event.currentSlide
+      slideName = $(slide).data('slide-name')
+      @onSlideChanged(slideName)
 
-# ###
-# # Использование опросника
-# ###
-# PollChart = require './poll-chart'
-# chart = new PollChart('#poll')
+  startPoll: ->
+    @api.startPoll 'project-name',
+      title: 'Помогите выбрать название проекта'
+      options: [
+        label: 'Flow'
+        color: '#f1c40f'
+      ,
+        label: 'Feynman'
+        color: '#e74c3c'
+      ,
+        label: 'Ficus'
+        color: '#3498db'
+      ,
+        label: 'Feedbacker'
+        color: '#16a085'
+      ]
+    @chart = new PollChart('.poll-container')
+    @api.$pollState.onValue (pollData) =>
+      return if @chart.isDestroyed
+      return unless pollData?
+      @pollData = pollData
+      @chart.updateData(pollData)
 
-# hipsterColors = [
-#   '#1abc9c', '#9b59b6', '#e74c3c'
-#   '#f1c40f', '#95a5a6', '#16a085'
-# ]
+  stopPoll: ->
+    @api.stopPoll()
+    return unless @chart?
+    return if @chart.isDestroyed
+    @chart.destroy()
 
-# hipsters = [
-#   'Пшеничный', 'Адимов', 'Белоусько',
-#   'Суздалев', 'Тактаров', 'Козин'
-# ]
+  showPollResults: ->
+    return unless @pollData?
+    winner = _.max @pollData, (d) -> d.count
+    $('section.poll-results').attr('data-background', winner.color)
+    $('.winner-name').text(winner.label)
+    Reveal.sync()
 
-# l = 4
-# data = _.map [0...l], (x,i) ->
-#   color: hipsterColors[i]
-#   label: hipsters[i]
-#   weight: 0
-#   count:  0
-
-# (update = ->
-#   data[_.random(0, l-1)].count += 1
-
-#   sum = d3.sum data, (d) -> d.count
-#   _.each data, (d) ->
-#     x = 0
-#     if sum isnt 0
-#       x = d.count / sum
-#     d.weight = x
-
-#   chart.updateData(data)
-#   setTimeout update, _.random(60, 300)
-# )()
+  onSlideChanged: (slideName) ->
+    switch slideName
+      when 'bored-audience-1'
+        true
+      when 'bored-audience-2'
+        true
+      when 'lectors-speed'
+        do @stopPoll
+      when 'naming-poll'
+        do @startPoll
+      when 'poll-results'
+        do @stopPoll
+        do @showPollResults
+      when 'contacts'
+        true
