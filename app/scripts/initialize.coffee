@@ -6,3 +6,9 @@ $ ->
     center: true
     transition: 'fade'
     dependencies: []
+
+
+  Feynman = require './speed-indicator'
+  window.feynman = new Feynman({})
+
+

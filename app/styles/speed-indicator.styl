@@ -2,6 +2,37 @@
 
 barHeight = 30px
 
+/***
+ * Animations
+ ***/
+@keyframes flowright
+  0%
+    background-position 0px
+  100%
+    background-position (50 * barHeight/40)
+
+@keyframes flowleft
+  0%
+    background-position 0px
+  100%
+    background-position (-50 * barHeight/40)
+
+@keyframes pulse
+  0%
+    opacity 0.65
+  50%
+    opacity 1
+  100%
+    opacity 0.65
+
+@keyframes hardPulse
+  0%
+    opacity 0.4
+  50%
+    opacity 1
+  100%
+    opacity 0.4
+
 .speed-indicator
   position fixed
   z-index 100
@@ -11,7 +42,7 @@ barHeight = 30px
   border 1px solid rgba(0,0,0,0.1)
   left 50%
   transform translateX(-50%)
-  bottom 10px
+  bottom 20px
 
   /***
    * Background
@@ -19,7 +50,7 @@ barHeight = 30px
   .left-background,
   .right-background
     background url("/bar-background-left.png")
-    background-size contain
+    background-size auto barHeight - 2
     background-position -16px
     height 100%
     width 50%
@@ -28,65 +59,50 @@ barHeight = 30px
 
   .right-background
     background-image url("/bar-background-right.png")
-    background-position 16px
+    background-position 26px
 
 
   /***
    * Middle
    ***/
   .middle
-    display none
     position absolute
     height barHeight
-    width 4px
     background #3eec7c
     left 50%
     top -1px
+    opacity 0
+    width 0
     transform translateX(-50%)
+    transition opacity 0.2s ease-in
+
+    &.show
+      opacity 1
+      width 4px
+      animation hardPulse 2s ease-in infinite
 
 
   /***
    * Bars
    ***/
-  @keyframes flowright
-    0%
-      background-position 0px
-    100%
-      background-position (50 * barHeight/40)
-
-  @keyframes flowleft
-    0%
-      background-position 0px
-    100%
-      background-position (-50 * barHeight/40)
-
-  @keyframes pulse
-    0%
-      opacity 0.65
-    50%
-      opacity 1
-    100%
-      opacity 0.60
-
   .slow-bar, .fast-bar
     position absolute
     height barHeight
+    width 0%
     top -1px
     z-index 1
+    transition width 0.2s ease-in
+    background-size auto barHeight
 
   .slow-bar
-    width 33%
     right 50%
     border-radius 6px 0 0 6px
-    background url("/slow-bar.png")
-    background-size contain
+    background-image url("/slow-bar.png")
     animation flowleft 1s linear infinite, pulse 0.5s ease-in infinite
 
   .fast-bar
-    width 33%
     left 50%
     border-radius 0 6px 6px 0
-    background url("/fast-bar.png")
-    background-size contain
+    background-image url("/fast-bar.png")
     animation flowright 1s linear infinite, pulse 0.5s ease-in infinite
 
