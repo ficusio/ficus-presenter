@@ -9,19 +9,19 @@ module.exports = class API
   PresentationState: API.PresentationState
 
 
-  constructor: (apiEndpoint) ->
-    console.debug "new API #{ apiEndpoint }"
-    @_ = new APIImpl apiEndpoint
+  constructor: (apiEndpoint, presentationId) ->
+    console.debug "new API endpoint '#{ apiEndpoint }', presentationId '#{ presentationId }'"
+    @_ = new APIImpl apiEndpoint, presentationId
     @$initialState = @_.$initialState.toProp()
     @$listenerCount = @_.$listenerCount.toProp()
     @$audienceMood = @_.$audienceMood.toProp()
     @$pollState = @_.$pollState.toProp()
 
 
-  startPresentation: (id = 'dummy_id') ->
-    console.debug "api.startPresentation '#{ id }'"
-    @_.startPresentation id
-    id
+  startPresentation: ->
+    console.debug 'api.startPresentation'
+    @_.startPresentation()
+    undefined
 
 
   setSlideId: (id) ->
@@ -52,10 +52,23 @@ module.exports = class API
 
 class APIImpl
 
-  constructor: (@apiEndpoint) ->
-    @$initialState = Bacon.later 100,
+  constructor: (@apiEndpoint, @presentationId = 'dummy_id') ->
+    
+    @initialState = if Math.random() < 0.5
       state: API.PresentationState.NOT_STARTED
-      listenerCount: 5
+      listenerCount: 1
+    else
+      state: API.PresentationState.ACTIVE
+      listenerCount: 25
+      slide: '2'
+      audienceMood: 2 * Math.random() - 1
+
+    @state = @initialState.state
+    @$initialState = Bacon.later 100, @initialState
+
+    @$initialState.onValue (initialState) =>
+      if initialState.state isnt API.PresentationState.NOT_STARTED
+        @initEvents()
 
     @$listenerCount = new Bacon.Bus
     @$audienceMood = new Bacon.Bus
@@ -68,13 +81,20 @@ class APIImpl
     @slide = undefined
 
 
-  startPresentation: (@presentationId) ->
-    @$listenerCountSrc = randomStream 500, 3000, 5, randomizeListenerCount
-    @$audienceMoodSrc = randomStream 100, 200, 0, randomizeMood
+  startPresentation: ->
+    if @state isnt API.PresentationState.NOT_STARTED
+      return console.warn 'presentation ' + @presentationId + ' was already started'
+    @state = API.PresentationState.ACTIVE
+    @initEvents()
+    undefined
+
+
+  initEvents: ->
+    @$listenerCountSrc = randomStream 500, 3000, @initialState.listenerCount, randomizeListenerCount
+    @$audienceMoodSrc = randomStream 100, 200, @initialState.audienceMood, randomizeMood
     noPoll = => not @pollId?
     @$listenerCount.plug @$listenerCountSrc
     @$audienceMood.plug @$audienceMoodSrc.filter noPoll
-    undefined
 
 
   setSlideId: (id) ->
@@ -92,7 +112,8 @@ class APIImpl
 
 
   stopPoll: ->
-    unless @pollId? then return console.warn 'no active poll to stop'
+    unless @pollId?
+      return console.warn 'no active poll to stop'
     @pollId = @poll = undefined
     @$pollStateSrc.end()
     @$pollState.push undefined
@@ -100,11 +121,13 @@ class APIImpl
 
 
   finishPresentation: ->
-    unless @presentationId? then return console.warn 'presentation is not started'
+    unless @state is API.PresentationState.ACTIVE
+      return console.warn 'presentation is not started'
+    if @pollId? then @stopPoll()
     @$listenerCountSrc.end()
     @$audienceMoodSrc.end()
-    if @pollId? then @stopPoll()
-    @presentationId = undefined
+    @$pollState.end()
+    @state = API.PresentationState.ENDED
 
 
   randomizeListenerCount = (prevCount) ->
