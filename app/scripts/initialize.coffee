@@ -11,4 +11,7 @@ $ ->
   Feynman = require './speed-indicator'
   window.feynman = new Feynman({})
 
+  Messages = require './messages'
+  window.messages = new Messages({})
+
 

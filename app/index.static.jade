@@ -15,11 +15,11 @@ html(lang='ru')
     script.
       require('scripts/initialize');
 
-    script#tpl-things-list-item(type='text/template')    
+    script#message(type='text/template')    
       .message
         .message-icon-wrapper
           .message-icon
-            img(src='/assets/message-icon.png', alt='Smiley face', height='34', width='34')
+            img(src='message-icon.png', alt='Smiley face', height='34', width='34')
         .message-body-wrapper
           .message-body
             .message-header <%= header %>
