@@ -9,6 +9,8 @@ module.exports = class Message
   constructor: (@api) ->
     templateString = $(TEMPLATE_CONTAINER_ID).html()
     @templateFunc = _.template(templateString)
+    @api.$audienceMessages.onValue (data) =>
+      @showMessage(data.message)
 
     checkMessages = () =>
       msgForRemove = []

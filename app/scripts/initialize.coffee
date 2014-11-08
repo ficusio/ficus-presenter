@@ -10,7 +10,7 @@ Presentation = require './presentation'
 # Полная инициализация
 ###
 $ ->
-  window.api          = new API '/api'
+  window.api          = new API '/api', 'test1'
   window.feynman      = new Feynman(api)
   window.messages     = new Messages(api)
   window.presentation = new Presentation(api)

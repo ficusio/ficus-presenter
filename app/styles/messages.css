@@ -78,6 +78,7 @@
   color: #767688;
 }
 .message-content {
+  margin-top: 3px;
   font-size: 15px;
   color: #999;
 }
