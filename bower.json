@@ -19,7 +19,8 @@
     "reveal.js": "~2.6.2",
     "bacon": "~0.7.30",
     "d3": "~3.4.13",
-    "lodash": "~2.4.1"
+    "lodash": "~2.4.1",
+    "moment": "~2.8.3"
   },
   "overrides": {
     "reveal.js": {
