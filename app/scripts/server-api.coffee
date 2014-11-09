@@ -87,9 +87,9 @@ class APIImpl
     @active = yes
 
     { clientId, presentationId } = @clientData
-    # @send 'init', { clientId, presentationId, isPresenter: yes }
+    @send 'init', { clientId, presentationId, isPresenter: yes }
 
-    @send 'init', { clientId: '1e5077ae-6ad1-4e19-bd06-713e8d0b7efb', presentationId:'9eec054e-6e1f-410c-b1e3-2003a7acfca3', isPresenter: yes }
+    # @send 'init', { clientId: '1e5077ae-6ad1-4e19-bd06-713e8d0b7efb', presentationId:'9eec054e-6e1f-410c-b1e3-2003a7acfca3', isPresenter: yes }
 
 
   on_message: (evt) ->
@@ -139,7 +139,7 @@ class APIImpl
     @send 'finish'
 
   startPoll: (id, poll) ->
-    poll.id = id
+    poll.id = id + Date.now().toString()
     @send 'poll_start', poll
 
   stopPoll: ->
