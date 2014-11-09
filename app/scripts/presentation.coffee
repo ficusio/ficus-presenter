@@ -55,7 +55,7 @@ module.exports = class Presentation
     switch slideName
       when 'bored-audience-1'
         true
-      when 'bored-audience-2'
+      when 'interactivity'
         true
       when 'lectors-speed'
         do @stopPoll
@@ -66,3 +66,4 @@ module.exports = class Presentation
         do @showPollResults
       when 'contacts'
         true
+
