@@ -1,0 +1,99 @@
+@import 'nib'
+
+
+@keyframes pulseOpacity1
+  0%
+    opacity 0.3
+  14%
+    opacity 0.3
+  15%
+    opacity 1
+  30%
+    opacity 1
+  35%
+    opacity 0.3
+  100%
+    opacity 0.3
+
+@keyframes pulseOpacity2
+  0%
+    opacity 0.3
+  60%
+    opacity 0.3
+  61%
+    opacity 1
+  75%
+    opacity 1
+  80%
+    opacity 0.3
+  100%
+    opacity 0.3
+
+@keyframes pulseScale1
+  0%
+    transform scale(1)
+  14%
+    transform scale(1)
+  15%
+    transform scale(1.3)
+  16%
+    transform scale(1)
+  100%
+    transform scale(1)
+
+@keyframes pulseScale2
+  0%
+    transform scale(1)
+  60%
+    transform scale(1)
+  61%
+    transform scale(1.3)
+  62%
+    transform scale(1)
+  100%
+    transform scale(1)
+
+.iphone-mockup
+  height 560px
+  width 303px
+  background url("/iphone-demo-bg.png")
+  background-size contain
+  left 34%
+  position relative
+  z-index 20
+
+  .faster-btn, .slower-btn
+    width 48px
+    height 50px
+    background url("/faster-button.png")
+    background-size contain
+    position absolute
+    bottom 104px
+    right 80px
+    animation pulseScale1 12s ease-in infinite
+
+  .slower-btn
+    left 76px
+    width 65px
+    background-image url("/slower-button.png")
+    animation pulseScale2 12s ease-in infinite
+
+.indicators
+  .slower,
+  .faster
+    opacity 0.3
+    position absolute
+    top 320px
+    left 60px
+    width 300px
+    height 60px
+    background-image url("/slower-pic.png")
+    background-size contain
+    background-repeat no-repeat
+    animation pulseOpacity2 12s ease-in infinite
+
+  .faster
+    left 600px
+    background-image url("/faster-pic.png")
+    animation pulseOpacity1 12s ease-in infinite
+

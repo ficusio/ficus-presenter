@@ -30,7 +30,7 @@ html(lang='ru')
             <% if (type == "twitter") { %>
             img(src='twitter-icon.png', alt='Twitter icon', height='34', width='34')
             <% } %>
-            
+
         .message-body-wrapper.min-height-message-body-wrapper
           .message-body
             .message-header <%= header %>
@@ -74,6 +74,15 @@ html(lang='ru')
 
         section.poll-results(data-slide-name='poll-results')
           h1.winner-name
+
+        section.how-to-use(data-slide-name='how-to-use')
+          .iphone-mockup
+            .slower-btn
+            .faster-btn
+
+          .indicators
+            .faster
+            .slower
 
         section(data-slide-name='contacts')
           img(src='code-hipsters-logo.svg')
