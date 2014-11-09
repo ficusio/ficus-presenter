@@ -20,7 +20,8 @@
     "bacon": "~0.7.30",
     "d3": "~3.4.13",
     "lodash": "~2.4.1",
-    "moment": "~2.8.3"
+    "moment": "~2.8.3",
+    "sockjs-client": "~0.3.4"
   },
   "overrides": {
     "reveal.js": {

@@ -1,7 +1,7 @@
 require './utils/bacon-helpers'
 require './participants'
 
-API          = require './api'
+API          = require './server-api'
 Feynman      = require './feynman'
 Messages     = require './messages'
 Presentation = require './presentation'
@@ -11,7 +11,7 @@ Participants = require './participants'
 # Полная инициализация
 ###
 $ ->
-  window.api = new API '/api', 'test1'
+  window.api = new API 'http://codehipsters.com/api'
 
   api.$initialState.onValue (initialState) ->
     window.feynman      = new Feynman(api)

@@ -1,3 +1,4 @@
+utils = require './utils/cookie-utils'
 
 module.exports = class ServerAPI
 
@@ -68,6 +69,7 @@ class APIImpl
     @$audienceMood = new Bacon.Bus
     @$pollState = new Bacon.Bus
     @$audienceMessages = new Bacon.Bus
+    @$initialState = new Bacon.Bus
 
 
   send: (type, data = '') ->
@@ -83,8 +85,11 @@ class APIImpl
   on_open: ->
     console.log 'API [*] open, proto:', @sockjs.protocol
     @active = yes
+
     { clientId, presentationId } = @clientData
-    @send 'init', { clientId, presentationId }
+    # @send 'init', { clientId, presentationId, isPresenter: yes }
+
+    @send 'init', { clientId: '1e5077ae-6ad1-4e19-bd06-713e8d0b7efb', presentationId:'9eec054e-6e1f-410c-b1e3-2003a7acfca3', isPresenter: yes }
 
 
   on_message: (evt) ->
@@ -105,7 +110,7 @@ class APIImpl
 
 
   on_initial_state: (initialState) ->
-    #unused
+    @$initialState.push initialState
 
   on_presentation_state: (state) ->
     #unused
@@ -114,7 +119,7 @@ class APIImpl
     #unused
 
 
-  on_total: (count) ->
+  on_total: (moodNumber) ->
     @$listenerCount.push moodNumber
 
   on_mood: (moodNumber) ->
@@ -136,7 +141,7 @@ class APIImpl
   startPoll: (id, poll) ->
     poll.id = id
     @send 'poll_start', poll
-  
+
   stopPoll: ->
     @send 'poll_finish'
 
