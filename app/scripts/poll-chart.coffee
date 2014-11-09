@@ -11,7 +11,7 @@ module.exports = class PollChart
   # Параметры
   ###
   labelsColor: '#000000'
-  labelsFont:  'Roboto'
+  labelsFont:  'ProximaNova'
   labelsSize:  '28px'
 
   # Отступы между столбиками и подписями
