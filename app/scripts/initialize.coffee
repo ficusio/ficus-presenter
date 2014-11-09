@@ -1,4 +1,4 @@
-require './utils'
+require './utils/bacon-helpers'
 require './participants'
 
 API          = require './api'

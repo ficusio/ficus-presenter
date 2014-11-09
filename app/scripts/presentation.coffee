@@ -1,4 +1,18 @@
 PollChart = require './poll-chart'
+plurals   = require './utils/plurals'
+
+###
+# Делает текст вида "уже 5 человек приняли решение"
+###
+pollTotalText = (total) ->
+  peopleInflection =
+    'one':   'человек принял'
+    'few':   'человекa приняли'
+    'many':  'человек приняли'
+    'other': 'человек приняли'
+
+  peopleText = peopleInflection[ plurals.ru(total) ]
+  "уже #{total} #{peopleText} решение"
 
 module.exports = class Presentation
   constructor: (@api) ->
@@ -30,11 +44,18 @@ module.exports = class Presentation
       ,
         label: 'Feedbacker'
         color: '#16a085'
+      ,
+        label: 'Fellini'
+        color: '#9b59b6'
       ]
     @chart = new PollChart('.poll-container')
     @api.$pollState.onValue (pollData) =>
       return if @chart.isDestroyed
       return unless pollData?
+
+      total = d3.sum(pollData, (d) -> d.count)
+      $('.poll-total').text(pollTotalText(total))
+
       @pollData = pollData
       @chart.updateData(pollData)
 

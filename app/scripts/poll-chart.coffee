@@ -1,5 +1,5 @@
 CHART_DEFAULT_WIDTH   = 800.0
-CHART_DEFAULT_HEIGHT  = 600.0
+CHART_DEFAULT_HEIGHT  = 580.0
 
 # Мы за безопасный секс
 safeFraction = (a, b) ->
