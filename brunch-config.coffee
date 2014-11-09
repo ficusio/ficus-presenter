@@ -2,14 +2,14 @@ exports.config =
   files:
     javascripts:
       joinTo:
-        'javascripts/app.js': /^app/
-        'javascripts/vendor.js': /^(?!app)/
+        'javascripts/app-presenter.js': /^app/
+        'javascripts/vendor-presenter.js': /^(?!app)/
 
     stylesheets:
-      joinTo: 'stylesheets/app.css'
+      joinTo: 'stylesheets/app-presenter.css'
 
     templates:
-      joinTo: 'javascripts/app.js'
+      joinTo: 'javascripts/app-presenter.js'
 
   plugins:
     jaded:
