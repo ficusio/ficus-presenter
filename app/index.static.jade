@@ -64,8 +64,14 @@ html(lang='ru')
           h2.codehipsters codehipsters.com
           .participants-container
 
-        section(data-slide-name='lectors-speed')
-          h2 Управляйте скоростью лектора
+        section.how-to-use(data-slide-name='how-to-use')
+          .iphone-mockup
+            .slower-btn
+            .faster-btn
+
+          .indicators
+            .faster
+            .slower
 
         section.naming-poll(data-slide-name='naming-poll')
           h4 Помогите выбрать название проекта
@@ -75,14 +81,6 @@ html(lang='ru')
         section.poll-results(data-slide-name='poll-results')
           h1.winner-name
 
-        section.how-to-use(data-slide-name='how-to-use')
-          .iphone-mockup
-            .slower-btn
-            .faster-btn
-
-          .indicators
-            .faster
-            .slower
 
         section(data-slide-name='contacts')
           img(src='code-hipsters-logo.svg')

@@ -84,12 +84,13 @@ module.exports = class Presentation
     Reveal.sync()
 
   onSlideChanged: (slideName) ->
+    console.log slideName
     switch slideName
       when 'bored-audience-1'
         true
       when 'interactivity'
         true
-      when 'lectors-speed'
+      when 'how-to-use'
         do @stopPoll
       when 'naming-poll'
         do @startPoll
