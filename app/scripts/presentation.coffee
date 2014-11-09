@@ -29,6 +29,9 @@ module.exports = class Presentation
       slideName = $(slide).data('slide-name')
       @onSlideChanged(slideName)
 
+  finishPresentation: ->
+    @api.finishPresentation()
+
   startPoll: ->
     @api.startPoll 'project-name',
       title: 'Помогите выбрать название проекта'
@@ -48,10 +51,13 @@ module.exports = class Presentation
         label: 'Fellini'
         color: '#9b59b6'
       ]
-    @chart = new PollChart('.poll-container')
+
+    chart = @chart = new PollChart('.poll-container')
+
+    @pollActive = true
+
     @api.$pollState.onValue (pollData) =>
-      return if @chart.isDestroyed
-      return unless pollData?
+      return if (chart.isDestroyed or !pollData?)
 
       total = d3.sum(pollData, (d) -> d.count)
       $('.poll-total').text(pollTotalText(total))
@@ -60,10 +66,15 @@ module.exports = class Presentation
       @chart.updateData(pollData)
 
   stopPoll: ->
+    return unless @pollActive
+    @pollActive = false
+
+    # останавливаем голосование
     @api.stopPoll()
+
+    # выключаем график
     return unless @chart?
-    return if @chart.isDestroyed
-    @chart.destroy()
+    @chart.destroy() unless @chart.isDestroyed
 
   showPollResults: ->
     return unless @pollData?
@@ -86,5 +97,5 @@ module.exports = class Presentation
         do @stopPoll
         do @showPollResults
       when 'contacts'
-        true
+        do @finishPresentation
 

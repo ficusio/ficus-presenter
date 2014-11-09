@@ -11,13 +11,14 @@ Participants = require './participants'
 # Полная инициализация
 ###
 $ ->
-  window.api          = new API '/api', 'test1'
-  window.feynman      = new Feynman(api)
-  window.messages     = new Messages(api)
-  window.presentation = new Presentation(api)
-  window.participants = new Participants(api, '.participants-container')
+  window.api = new API '/api', 'test1'
 
   api.$initialState.onValue (initialState) ->
-    api.startPresentation 1
+    window.feynman      = new Feynman(api)
+    window.messages     = new Messages(api)
+    window.presentation = new Presentation(api)
+    window.participants = new Participants(api, '.participants-container')
+
+    do api.startPresentation
 
 
