@@ -4,7 +4,7 @@ module.exports = class Message
   TEMPLATE_CONTAINER_ID = '#message'
   MESSAGE_HEADER = 'Новый вопрос'
 
-  MAX_MESSAGES = 5
+  MAX_MESSAGES = 6
   MESSAGE_DURATION = 20000
 
   constructor: (@api) ->
