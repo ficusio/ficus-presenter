@@ -13,10 +13,14 @@ module.exports = class Participants
     root = $(@rootSelector)
     currentCount = root.find('.human').length
 
+    if currentCount is amount
+      return
+
     if currentCount > amount
       for i in [amount..currentCount - 1]
         root.find('.human').last().remove()
-    else
+
+    if currentCount < amount
       for i in [currentCount..amount - 1]
         root.find('.people').append( '<div class="human icon-person"></div>' )
 
