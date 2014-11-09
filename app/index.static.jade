@@ -24,7 +24,13 @@ html(lang='ru')
       .message.min-height-message
         .message-icon-wrapper
           .message-icon
-            img(src='message-icon.png', alt='Smiley face', height='34', width='34')
+            <% if (type == "inapp") { %>
+            img(src='message-icon.png', alt='Message icon', height='34', width='34')
+            <% } %>
+            <% if (type == "twitter") { %>
+            img(src='twitter-icon.png', alt='Twitter icon', height='34', width='34')
+            <% } %>
+            
         .message-body-wrapper.min-height-message-body-wrapper
           .message-body
             .message-header <%= header %>

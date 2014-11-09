@@ -3,6 +3,7 @@ module.exports = class Message
   MESSAGES_CONTAINER_CLASS = '.messages-container'
   TEMPLATE_CONTAINER_ID = '#message'
   MESSAGE_HEADER = 'Новый вопрос'
+
   MAX_MESSAGES = 5
   MESSAGE_DURATION = 20000
 
@@ -10,7 +11,7 @@ module.exports = class Message
     templateString = $(TEMPLATE_CONTAINER_ID).html()
     @templateFunc = _.template(templateString)
     @api.$audienceMessages.onValue (data) =>
-      @showMessage(data.message)
+      @showMessage(data)
 
     checkMessages = () =>
       msgForRemove = []
@@ -47,7 +48,7 @@ module.exports = class Message
             mess.$msg.slideToggle( "slow", ->
               mess.$msg.remove()
             )
-          setTimeout slideToggleMsg, 10
+          setTimeout slideToggleMsg, 13
           
         _.delay(removeFromDom, 700)
 
@@ -58,12 +59,16 @@ module.exports = class Message
   messages: []
   messagesBuffer: []
 
-  showMessage: (content) ->
+  showMessage: (data) ->
     if(@messages.length >= MAX_MESSAGES)
-      @messagesBuffer.push(content)
+      @messagesBuffer.push(data)
     else
+      message = data.message
+      type = data.type
+      header = if type == 'twitter' then '@' + data.userId else MESSAGE_HEADER
+
       timeAdd = moment(Date.now())
-      $msg = $(@templateFunc({message : content, header: MESSAGE_HEADER}))
+      $msg = $(@templateFunc({message : message, header: header, type: type}))
       @messages.unshift( {$msg: $msg, timeAdd: timeAdd} )
       $(MESSAGES_CONTAINER_CLASS).append($msg)
-      setTimeout (-> $msg.addClass('message-in')), 10
+      setTimeout (-> $msg.addClass('message-in')), 13
