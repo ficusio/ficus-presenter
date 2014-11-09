@@ -2,12 +2,15 @@ TEMPLATE_SELECTOR = '#participants-template'
 ANIMATION_DURATION = 200
 
 module.exports = class Participants
-  constructor: (@api, @rootSelector) ->
+  constructor: (@api, @rootSelector, initialState={}) ->
     @templateFunc = _.template($(TEMPLATE_SELECTOR).html())
     $(@rootSelector).html( @templateFunc() )
 
     # Слушаем изменение людей
     @api.$listenerCount.onValue _.bind(@drawHumans, @)
+
+    if initialState.totalClients?
+      @drawHumans(initialState.totalClients)
 
   drawHumans: (amount) ->
     root = $(@rootSelector)

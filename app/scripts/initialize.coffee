@@ -17,7 +17,7 @@ $ ->
     window.feynman      = new Feynman(api)
     window.messages     = new Messages(api)
     window.presentation = new Presentation(api)
-    window.participants = new Participants(api, '.participants-container')
+    window.participants = new Participants(api, '.participants-container', initialState)
 
     do api.startPresentation
 
