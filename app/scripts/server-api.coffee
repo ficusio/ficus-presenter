@@ -3,7 +3,7 @@ utils = require './utils/cookie-utils'
 module.exports = class ServerAPI
 
   @PresentationState:
-    NOT_STARTED: 'notStarted'
+    NOT_STARTED: 'not_started'
     ACTIVE: 'active'
     ENDED: 'ended'
 

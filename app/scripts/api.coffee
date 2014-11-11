@@ -2,7 +2,7 @@
 module.exports = class API
 
   @PresentationState:
-    NOT_STARTED: 'notStarted'
+    NOT_STARTED: 'not_started'
     ACTIVE: 'active'
     ENDED: 'ended'
 
