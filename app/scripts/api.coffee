@@ -9,9 +9,9 @@ module.exports = class API
   PresentationState: API.PresentationState
 
 
-  constructor: (apiEndpoint, presentationId) ->
-    console.debug "new API endpoint '#{ apiEndpoint }', presentationId '#{ presentationId }'"
-    @_ = new APIImpl apiEndpoint, presentationId
+  constructor: (apiEndpoint) ->
+    console.debug "new API #{ apiEndpoint }"
+    @_ = new APIImpl apiEndpoint
     @$initialState = @_.$initialState.toProp()
     @$listenerCount = @_.$listenerCount.toProp()
     @$audienceMood = @_.$audienceMood.toProp()
@@ -53,7 +53,7 @@ module.exports = class API
 
 class APIImpl
 
-  constructor: (@apiEndpoint, @presentationId = 'dummy_id') ->
+  constructor: (@apiEndpoint) ->
 
     @initialState = if Math.random() < 0.5
       state: API.PresentationState.NOT_STARTED
@@ -85,7 +85,7 @@ class APIImpl
 
   startPresentation: ->
     if @state isnt API.PresentationState.NOT_STARTED
-      return console.warn 'presentation ' + @presentationId + ' was already started'
+      return console.warn 'presentation has been already started'
     @state = API.PresentationState.ACTIVE
     @initEvents()
     undefined

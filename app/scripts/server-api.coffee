@@ -10,9 +10,9 @@ module.exports = class ServerAPI
   PresentationState: ServerAPI.PresentationState
 
 
-  constructor: (apiEndpoint, presentationId) ->
-    console.debug "new API endpoint '#{ apiEndpoint }', presentationId '#{ presentationId }'"
-    @_ = new APIImpl apiEndpoint, presentationId
+  constructor: (apiEndpoint) ->
+    console.debug "new API endpoint #{ apiEndpoint }"
+    @_ = new APIImpl apiEndpoint
     @$initialState = @_.$initialState.toProp()
     @$listenerCount = @_.$listenerCount.toProp()
     @$audienceMood = @_.$audienceMood.toProp()
@@ -54,7 +54,7 @@ module.exports = class ServerAPI
 
 class APIImpl
 
-  constructor: (@apiEndpoint, @presentationId = 'dummy_id') ->
+  constructor: (@apiEndpoint) ->
     @clientData = utils.obtainClientData()
     @sockjs = new SockJS apiEndpoint
     @active = no
