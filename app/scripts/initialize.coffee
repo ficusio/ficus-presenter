@@ -11,7 +11,7 @@ Participants = require './participants'
 # Полная инициализация
 ###
 $ ->
-  window.api = new API 'http://codehipsters.com/api'
+  window.api = new API '/api'
 
   api.$initialState.onValue (initialState) ->
     window.feynman      = new Feynman(api)
