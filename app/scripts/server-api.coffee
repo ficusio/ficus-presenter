@@ -1,4 +1,3 @@
-utils = require './utils/cookie-utils'
 
 module.exports = class ServerAPI
 
@@ -51,6 +50,9 @@ module.exports = class ServerAPI
 
 
 ####################################################################################################
+
+utils = require './utils/cookie-utils'
+
 
 class APIImpl
 
