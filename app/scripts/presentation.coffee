@@ -16,18 +16,19 @@ pollTotalText = (total) ->
 
 module.exports = class Presentation
   constructor: (@api) ->
-    Reveal.initialize
-      controls: false
-      progress: false
-      history: false
-      center: true
-      transition: 'fade'
-      dependencies: []
+    true
+    # Reveal.initialize
+    #   controls: false
+    #   progress: false
+    #   history: false
+    #   center: true
+    #   transition: 'fade'
+    #   dependencies: []
 
-    Reveal.addEventListener 'slidechanged', (event) =>
-      slide = event.currentSlide
-      slideName = $(slide).data('slide-name')
-      @onSlideChanged(slideName)
+    # Reveal.addEventListener 'slidechanged', (event) =>
+    #   slide = event.currentSlide
+    #   slideName = $(slide).data('slide-name')
+    #   @onSlideChanged(slideName)
 
   finishPresentation: ->
     @api.finishPresentation()
