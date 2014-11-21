@@ -1,15 +1,28 @@
-console.log PDFJS 
+
+CSS_UNITS = 96.0 / 72.0
+
 module.exports = class PDFView
 
     constructor: (@$el) ->
       @ready = no
       @canvas = ($el.find 'canvas')[0]
       @ctx = @canvas.getContext '2d'
+      
+      @_$innerSlide = new Bacon.Bus
+      @$slide = @_$innerSlide.toProp(1)
 
     setMaxHeight: (@maxHeight) -> 
       @$el.height maxHeight
       if @pdfDoc
         @pdfDoc.getPage(@pageNum).then @_renderPage
+
+    nextPage: ->
+      return if @pageNum >= @pdfDoc.numPages
+      @displayPage @pageNum + 1
+
+    prevPage: ->
+      return if @pageNum <= 1
+      @displayPage @pageNum - 1
 
     load: (@url) ->
       console.log 'load'
@@ -36,10 +49,13 @@ module.exports = class PDFView
 
       console.log 'pdf-view scaleX:', scaleX, 'scaleY:', scaleY, 'scale:', scale
 
-      viewport = page.getViewport scale
-      @canvas.width = viewport.width
+      $('canvas').css 'zoom', '0.5'
+      viewport = page.getViewport scale * 2
+      @canvas.width = viewport.width 
       @canvas.height = viewport.height
 
       page.render
         canvasContext: @ctx
         viewport: viewport
+
+      @_$innerSlide.push @pageNum

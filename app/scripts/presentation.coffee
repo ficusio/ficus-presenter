@@ -15,25 +15,16 @@ pollTotalText = (total) ->
   "уже #{total} #{peopleText} решение"
 
 module.exports = class Presentation
-  constructor: (@api) ->
-    true
-    # Reveal.initialize
-    #   controls: false
-    #   progress: false
-    #   history: false
-    #   center: true
-    #   transition: 'fade'
-    #   dependencies: []
-
-    # Reveal.addEventListener 'slidechanged', (event) =>
-    #   slide = event.currentSlide
-    #   slideName = $(slide).data('slide-name')
-    #   @onSlideChanged(slideName)
+  constructor: (@api, @pdfjs) ->
+    @pdfjs.$slide.onValue (slideNum) =>
+      @onSlideChanged slideNum
 
   finishPresentation: ->
     @api.finishPresentation()
 
   startPoll: ->
+    $('.naming-poll').show()
+    $('.poll-results').hide()
     @api.startPoll 'project-name',
       title: 'Помогите выбрать название проекта'
       options: [
@@ -67,6 +58,8 @@ module.exports = class Presentation
       @chart.updateData(pollData)
 
   stopPoll: ->
+    $('.naming-poll').hide()
+    $('.poll-results').hide()
     return unless @pollActive
     @pollActive = false
 
@@ -79,25 +72,28 @@ module.exports = class Presentation
 
   showPollResults: ->
     return unless @pollData?
+    $('.naming-poll').hide()
+    $('.poll-results').show()
     winner = _.max @pollData, (d) -> d.count
-    $('section.poll-results').attr('data-background', winner.color)
+    $('.poll-wrapper').css('background-color', winner.color)
+    $('.poll-results').attr('data-background', winner.color)
     $('.winner-name').text(winner.label)
-    Reveal.sync()
 
-  onSlideChanged: (slideName) ->
-    console.log slideName
-    switch slideName
-      when 'bored-audience-1'
-        true
-      when 'interactivity'
-        true
-      when 'how-to-use'
+  onSlideChanged: (slideNum) ->
+    console.log 'onSlideChanged', slideNum
+    switch slideNum
+      when 2
         do @stopPoll
-      when 'naming-poll'
+      when 3
         do @startPoll
-      when 'poll-results'
+        $('.poll-wrapper').css('background-color', 'transparent')
+        $('.poll-results').hide()
+      when 4
         do @stopPoll
         do @showPollResults
-      when 'contacts'
+      when 5
+        $('.poll-wrapper').css('background-color', 'transparent')
+        $('.poll-results').hide()
+      when 6
         do @finishPresentation
 
