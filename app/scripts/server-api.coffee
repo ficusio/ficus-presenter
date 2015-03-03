@@ -135,7 +135,6 @@ class APIImpl
 
   startPresentation: ->
     @send 'start'
-    # @initEvents()
 
   finishPresentation: ->
     @send 'finish'
