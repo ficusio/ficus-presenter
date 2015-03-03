@@ -63,7 +63,7 @@ module.exports = class Message
     if(@messages.length >= MAX_MESSAGES)
       @messagesBuffer.push(data)
     else
-      message = data.message
+      message = data.text
       type = data.type
       header = if type == 'twitter' then '@' + data.userId else MESSAGE_HEADER
 

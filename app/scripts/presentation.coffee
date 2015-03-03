@@ -25,6 +25,7 @@ module.exports = class Presentation
       dependencies: []
 
     Reveal.addEventListener 'slidechanged', (event) =>
+      @api.setSlideId event.indexh + '-' + event.indexv
       slide = event.currentSlide
       slideName = $(slide).data('slide-name')
       @onSlideChanged(slideName)
