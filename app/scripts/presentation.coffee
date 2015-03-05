@@ -25,23 +25,26 @@ module.exports = class Presentation
   startPoll: ->
     $('.naming-poll').show()
     $('.poll-results').hide()
-    @api.startPoll 'project-name',
-      title: 'Помогите выбрать название проекта'
+    @api.startPoll 'build-system',
+      title: 'Чем вы будете собирать следующий проект'
       options: [
-        label: 'Flow'
+        label: 'Grunt'
         color: '#f1c40f'
       ,
-        label: 'Feynman'
+        label: 'Gulp'
         color: '#e74c3c'
       ,
-        label: 'Ficus'
+        label: 'Brunch'
         color: '#3498db'
       ,
-        label: 'Feedbacker'
+        label: 'Broccoli'
         color: '#16a085'
       ,
-        label: 'Fellini'
+        label: 'Bud'
         color: '#9b59b6'
+      ,
+        label: 'Webpack'
+        color: '#7ea9e8'
       ]
 
     chart = @chart = new PollChart('.poll-container')
@@ -81,19 +84,30 @@ module.exports = class Presentation
 
   onSlideChanged: (slideNum) ->
     console.log 'onSlideChanged', slideNum
+
+    participantsSlideNumber = 3
+    pollSlideNumber = 16
+    lastSlideNumber = 18
+
     switch slideNum
-      when 2
+      when participantsSlideNumber - 1
+        $('.participants-wrapper').hide()
+      when participantsSlideNumber
+        $('.participants-wrapper').show()
         do @stopPoll
-      when 3
+      when participantsSlideNumber + 1
+        $('.participants-wrapper').hide()
+      when pollSlideNumber - 1
+        do @stopPoll
+      when pollSlideNumber
         do @startPoll
         $('.poll-wrapper').css('background-color', 'transparent')
         $('.poll-results').hide()
-      when 4
+      when pollSlideNumber + 1
         do @stopPoll
         do @showPollResults
-      when 5
+      when pollSlideNumber + 2
         $('.poll-wrapper').css('background-color', 'transparent')
         $('.poll-results').hide()
-      when 6
+      when lastSlideNumber
         do @finishPresentation
-

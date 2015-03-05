@@ -25,6 +25,7 @@ api.$initialState.onValue (initialState) -> $ ->
 
   $poll = $('.naming-poll')
   $result = $('.poll-results')
+  $participants = $('.participants')
 
   resize = ->
     viewportHeight = $(window).height()
@@ -39,6 +40,10 @@ api.$initialState.onValue (initialState) -> $ ->
     $result.css 'zoom', zoom
     $result.css '-moz-transform', "scale(#{zoom})"
     $result.css '-o-transform', "scale(#{zoom})"
+
+    $participants.css 'zoom', zoom
+    $participants.css '-moz-transform', "scale(#{zoom})"
+    $participants.css '-o-transform', "scale(#{zoom})"
     
 
   $(window).on "resize", _.debounce(resize, 200)
