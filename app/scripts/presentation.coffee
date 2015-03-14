@@ -86,8 +86,8 @@ module.exports = class Presentation
     console.log 'onSlideChanged', slideNum
 
     participantsSlideNumber = 3
-    pollSlideNumber = 16
-    lastSlideNumber = 18
+    pollSlideNumber = 50
+    lastSlideNumber = 44
 
     switch slideNum
       when participantsSlideNumber - 1
