@@ -26,25 +26,16 @@ module.exports = class Presentation
     $('.naming-poll').show()
     $('.poll-results').hide()
     @api.startPoll 'build-system',
-      title: 'Чем вы будете собирать следующий проект'
+      title: 'Пользовались ли сервисом Везёт Всем?'
       options: [
-        label: 'Grunt'
+        label: 'Да, конечно'
         color: '#f1c40f'
       ,
-        label: 'Gulp'
+        label: 'Нет, но слышал'
         color: '#e74c3c'
       ,
-        label: 'Brunch'
+        label: 'Что это такое?'
         color: '#3498db'
-      ,
-        label: 'Broccoli'
-        color: '#16a085'
-      ,
-        label: 'Bud'
-        color: '#9b59b6'
-      ,
-        label: 'Webpack'
-        color: '#7ea9e8'
       ]
 
     chart = @chart = new PollChart('.poll-container')
@@ -85,9 +76,9 @@ module.exports = class Presentation
   onSlideChanged: (slideNum) ->
     console.log 'onSlideChanged', slideNum
 
-    participantsSlideNumber = 3
-    pollSlideNumber = 50
-    lastSlideNumber = 44
+    participantsSlideNumber = 2
+    pollSlideNumber = 4
+    lastSlideNumber = 31
 
     switch slideNum
       when participantsSlideNumber - 1
