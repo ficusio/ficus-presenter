@@ -15,41 +15,27 @@ pollTotalText = (total) ->
   "уже #{total} #{peopleText} решение"
 
 module.exports = class Presentation
-  constructor: (@api) ->
-    Reveal.initialize
-      controls: false
-      progress: false
-      history: false
-      center: true
-      transition: 'fade'
-      dependencies: []
-
-    Reveal.addEventListener 'slidechanged', (event) =>
-      slide = event.currentSlide
-      slideName = $(slide).data('slide-name')
-      @onSlideChanged(slideName)
+  constructor: (@api, @pdfjs) ->
+    @pdfjs.$slide.onValue (slideNum) =>
+      @onSlideChanged slideNum
 
   finishPresentation: ->
     @api.finishPresentation()
 
   startPoll: ->
-    @api.startPoll 'project-name',
-      title: 'Помогите выбрать название проекта'
+    $('.naming-poll').show()
+    $('.poll-results').hide()
+    @api.startPoll 'build-system',
+      title: 'Пользовались ли сервисом Везёт Всем?'
       options: [
-        label: 'Flow'
+        label: 'Да, конечно'
         color: '#f1c40f'
       ,
-        label: 'Feynman'
+        label: 'Нет, но слышал'
         color: '#e74c3c'
       ,
-        label: 'Ficus'
+        label: 'Что это такое?'
         color: '#3498db'
-      ,
-        label: 'Feedbacker'
-        color: '#16a085'
-      ,
-        label: 'Fellini'
-        color: '#9b59b6'
       ]
 
     chart = @chart = new PollChart('.poll-container')
@@ -66,6 +52,8 @@ module.exports = class Presentation
       @chart.updateData(pollData)
 
   stopPoll: ->
+    $('.naming-poll').hide()
+    $('.poll-results').hide()
     return unless @pollActive
     @pollActive = false
 
@@ -78,25 +66,39 @@ module.exports = class Presentation
 
   showPollResults: ->
     return unless @pollData?
+    $('.naming-poll').hide()
+    $('.poll-results').show()
     winner = _.max @pollData, (d) -> d.count
-    $('section.poll-results').attr('data-background', winner.color)
+    $('.poll-wrapper').css('background-color', winner.color)
+    $('.poll-results').attr('data-background', winner.color)
     $('.winner-name').text(winner.label)
-    Reveal.sync()
 
-  onSlideChanged: (slideName) ->
-    console.log slideName
-    switch slideName
-      when 'bored-audience-1'
-        true
-      when 'interactivity'
-        true
-      when 'how-to-use'
+  onSlideChanged: (slideNum) ->
+    console.log 'onSlideChanged', slideNum
+
+    participantsSlideNumber = 2
+    pollSlideNumber = 4
+    lastSlideNumber = 31
+
+    switch slideNum
+      when participantsSlideNumber - 1
+        $('.participants-wrapper').hide()
+      when participantsSlideNumber
+        $('.participants-wrapper').show()
         do @stopPoll
-      when 'naming-poll'
+      when participantsSlideNumber + 1
+        $('.participants-wrapper').hide()
+      when pollSlideNumber - 1
+        do @stopPoll
+      when pollSlideNumber
         do @startPoll
-      when 'poll-results'
+        $('.poll-wrapper').css('background-color', 'transparent')
+        $('.poll-results').hide()
+      when pollSlideNumber + 1
         do @stopPoll
         do @showPollResults
-      when 'contacts'
+      when pollSlideNumber + 2
+        $('.poll-wrapper').css('background-color', 'transparent')
+        $('.poll-results').hide()
+      when lastSlideNumber
         do @finishPresentation
-
