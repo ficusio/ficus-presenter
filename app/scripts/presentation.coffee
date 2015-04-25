@@ -23,6 +23,9 @@ module.exports = class Presentation
       center: true
       transition: 'fade'
       dependencies: []
+      margin: 0.0
+      width: 1024
+      height: 768
 
     Reveal.addEventListener 'slidechanged', (event) =>
       slide = event.currentSlide
