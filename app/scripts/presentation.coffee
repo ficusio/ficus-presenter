@@ -58,10 +58,8 @@ module.exports = class Presentation
 
     @api.$pollState.onValue (pollData) =>
       return if (chart.isDestroyed or !pollData?)
-
-      total = d3.sum(pollData, (d) -> d.count)
+      total = Math.round d3.sum(pollData, (d) -> d.count) / 3
       $('.poll-total').text(pollTotalText(total))
-
       @pollData = pollData
       @chart.updateData(pollData)
 
