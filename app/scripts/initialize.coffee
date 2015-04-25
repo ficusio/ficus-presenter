@@ -1,8 +1,6 @@
 require './utils/bacon-helpers'
 
-
-API          = require './server-api'
-Feynman      = require './feynman'
+API          = require './server-api-mock'
 Messages     = require './messages'
 Presentation = require './presentation'
 Participants = require './participants'
@@ -10,9 +8,7 @@ Participants = require './participants'
 
 api = new API '/api'
 
-
 api.$initialState.onValue (initialState) -> $ ->
-  feynman      = new Feynman api
   messages     = new Messages api
   presentation = new Presentation api
   participants = new Participants api, '.participants-container', initialState
