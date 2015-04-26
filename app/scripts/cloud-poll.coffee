@@ -23,7 +23,26 @@ module.exports = class CloudPoll
     @data = []
 
   getWinners: ->
-    return _.first(@data, 7)
+
+    topVotes = _.chain(@data)
+      .map((d) -> d.count)
+      .uniq()
+      .filter (d) -> d != 0
+      .sort((d) -> -d)
+      .first(3)
+      .value()
+
+    # console.log JSON.stringify(@data, null, '  ')
+    # console.log topVotes
+
+    winners = _.chain(@data)
+      .filter (d) ->
+        d.count in topVotes
+      .sort (d) ->
+        -d.count
+      .value()
+
+    winners
 
   # ---
   # Формирует строку с количеством проголосовавших
@@ -74,7 +93,6 @@ module.exports = class CloudPoll
     data =  _.sortBy(data, (d) -> -d.count)
     votes = @diffVotes( @data, data)
     @data = data
-
 
     ballsEnter = d3.select(@el)
       .select('.balls-container')

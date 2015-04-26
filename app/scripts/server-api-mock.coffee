@@ -110,7 +110,7 @@ class APIImpl
     @pollId = id
     @poll = poll
     pollState = pollStateFromPoll poll
-    @$pollStateSrc = randomStream 200, 800, pollState, randomizePollState
+    @$pollStateSrc = randomStream 2000, 3000, pollState, randomizePollState
     @$pollState.plug Bacon.later(0, pollState).concat @$pollStateSrc
     undefined
 
