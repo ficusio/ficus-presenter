@@ -4,7 +4,7 @@ contenders = require './fixtures/contenders'
 plurals = require './utils/plurals'
 
 ALREADY_STARTED_KEY = 'ficus-poll-started'
-PERSIST_POLL_STATE  = no
+PERSIST_POLL_STATE  = yes
 
 module.exports = class Presentation
   constructor: (@api) ->
