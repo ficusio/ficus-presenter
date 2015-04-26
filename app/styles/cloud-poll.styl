@@ -89,6 +89,20 @@ $white     = #fff
   text-align center
   max-width 140px
   margin 0 auto
+
+  position relative
+
+  > .balls-container
+    .ball
+      position absolute
+      top 10px
+      left 60px
+      size 18px
+      border-radius 18px
+      background-color $white
+      z-index 99999
+
+
   > .number
     font-size 80px
     font-weight 500
