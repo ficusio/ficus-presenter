@@ -1,18 +1,8 @@
-PollChart = require './poll-chart'
-plurals   = require './utils/plurals'
+CloudPoll  = require './cloud-poll'
+contenders = require './fixtures/contenders'
 
-###
-# Делает текст вида "уже 5 человек приняли решение"
-###
-pollTotalText = (total) ->
-  peopleInflection =
-    'one':   'человек принял'
-    'few':   'человекa приняли'
-    'many':  'человек приняли'
-    'other': 'человек приняли'
-
-  peopleText = peopleInflection[ plurals.ru(total) ]
-  "уже #{total} #{peopleText} решение"
+ALREADY_STARTED_KEY = 'ficus-poll-started'
+PERSIST_POLL_STATE  = no
 
 module.exports = class Presentation
   constructor: (@api) ->
@@ -32,71 +22,48 @@ module.exports = class Presentation
       slideName = $(slide).data('slide-name')
       @onSlideChanged(slideName)
 
+    @cloudPoll = new CloudPoll('.cloud-poll')
+    @startPoll()
+
   finishPresentation: ->
     @api.finishPresentation()
 
   startPoll: ->
-    @api.startPoll 'project-name',
-      title: 'Помогите выбрать название проекта'
-      options: [
-        label: 'Flow'
-        color: '#f1c40f'
-      ,
-        label: 'Feynman'
-        color: '#e74c3c'
-      ,
-        label: 'Ficus'
-        color: '#3498db'
-      ,
-        label: 'Feedbacker'
-        color: '#16a085'
-      ,
-        label: 'Fellini'
-        color: '#9b59b6'
-      ]
-
-    chart = @chart = new PollChart('.poll-container')
-
+    return if @pollActive
     @pollActive = true
 
+    if PERSIST_POLL_STATE
+      alreadyStarted = localStorage.getItem(ALREADY_STARTED_KEY)
+
+      return if alreadyStarted
+      localStorage.setItem(ALREADY_STARTED_KEY, true)
+
+    @api.startPoll 'hackathon-winner',
+      title: 'Проголосуйте за участников хакатона'
+      options: _.map(contenders, (c) -> { label: c, color: '#f1c40f'})
+
     @api.$pollState.onValue (pollData) =>
-      return if (chart.isDestroyed or !pollData?)
-      total = Math.round d3.sum(pollData, (d) -> d.count) / 3
-      $('.poll-total').text(pollTotalText(total))
-      @pollData = pollData
-      @chart.updateData(pollData)
+      @cloudPoll.updateData(pollData)
 
   stopPoll: ->
     return unless @pollActive
     @pollActive = false
-
-    # останавливаем голосование
     @api.stopPoll()
 
-    # выключаем график
-    return unless @chart?
-    @chart.destroy() unless @chart.isDestroyed
-
   showPollResults: ->
-    return unless @pollData?
-    winner = _.max @pollData, (d) -> d.count
-    $('section.poll-results').attr('data-background', winner.color)
-    $('.winner-name').text(winner.label)
-    Reveal.sync()
+    # not yet implemented!
+
+    # return unless @pollData?
+    # winner = _.max @pollData, (d) -> d.count
+    # $('section.poll-results').attr('data-background', winner.color)
+    # $('.winner-name').text(winner.label)
+    # Reveal.sync()
 
   onSlideChanged: (slideName) ->
-    console.log slideName
     switch slideName
-      when 'bored-audience-1'
-        true
-      when 'interactivity'
-        true
-      when 'how-to-use'
-        do @stopPoll
-      when 'naming-poll'
+      when 'cloud-poll'
         do @startPoll
       when 'poll-results'
-        do @stopPoll
         do @showPollResults
       when 'contacts'
         do @finishPresentation
