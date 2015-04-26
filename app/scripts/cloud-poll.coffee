@@ -9,7 +9,14 @@ NAME_WIDTH    = 200
 BARS_MARGIN   = 32
 BAR_MIN_VALUE = 0.05
 
-BALLS_ANIM_DURATION = 1000
+BALLS_ANIM_DURATION    = 1000
+REORDER_ANIM_DURATION  = 500
+BAR_GROW_ANIM_DURATION = 500
+
+
+leadersIdxs = (pollData) ->
+  [0, 1, 2]
+
 
 # ---
 # Голосование
@@ -82,6 +89,7 @@ module.exports = class CloudPoll
     ballsEnter
       .transition()
       .duration(BALLS_ANIM_DURATION)
+      .delay (d, i) -> 100*i
       .attrTween 'style', (d, i) ->
         (t) ->
           a = $('.balls-container').offset()
@@ -123,12 +131,13 @@ module.exports = class CloudPoll
     number = summary.select('.number')
 
     number
-      .classed(flash: true)
+      .classed 'flash-animation', (d) ->
+        d != 0
       .text (c) -> c
 
     # Плохо!
     setTimeout =>
-      number.classed(flash: false)
+      number.classed('flash-animation': false)
     , 300
 
 
@@ -139,6 +148,7 @@ module.exports = class CloudPoll
       .selectAll('.entry')
       .data(@data, (d) -> d.label)
 
+    # Entry bootstrap
     entryEnter = entry.enter()
       .append('div')
       .attr('class', 'entry')
@@ -152,28 +162,33 @@ module.exports = class CloudPoll
         y = BARS_MARGIN * i
         "#{y}px"
 
-    entry
-      .transition()
-      .duration(500)
-      .delay(BALLS_ANIM_DURATION + 500)
-      .style 'top', (d, i) ->
-        y = BARS_MARGIN * i
-        "#{y}px"
-
-    entry.select('.votes-count')
-      .transition()
-      .delay(BALLS_ANIM_DURATION)
-      .text (d) -> d.count
-
     entry.select('.votes')
       .transition()
       .delay(BALLS_ANIM_DURATION)
-      .duration(500)
+      .duration(BAR_GROW_ANIM_DURATION)
       .style 'width', (d) =>
         x = safeFraction(d.count, max)
         bmin = BAR_MIN_VALUE * barMaxWidth
         w = bmin + (barMaxWidth - bmin) * x
         "#{w.toFixed(0)}px"
+
+    entry
+      .transition()
+      .duration(REORDER_ANIM_DURATION)
+      .delay(BALLS_ANIM_DURATION + BAR_GROW_ANIM_DURATION)
+      .style 'top', (d, i) ->
+        y = BARS_MARGIN * i
+        "#{y}px"
+
+    setTimeout =>
+      entry.classed 'leader', (d, i) ->
+        true
+    , (BALLS_ANIM_DURATION + BAR_GROW_ANIM_DURATION + REORDER_ANIM_DURATION)
+
+    entry.select('.votes-count')
+      .transition()
+      .delay(BALLS_ANIM_DURATION)
+      .text((d) -> d.count)
 
 
 

@@ -4,6 +4,17 @@
 $blueprint = #13B4F0
 $white     = #fff
 
+@keyframes flash-anim
+  30%
+    transform scale(1.5, 1.5)
+  100%
+    transform scale(1.0, 1.0)
+
+
+.flash-animation
+  animation flash-anim 0.3s
+  animation-timing-function ease
+
 // ---
 // Слайд с голосованием
 // ---
@@ -48,6 +59,11 @@ $white     = #fff
 
     $lineFontSize = 20px
 
+    opacity 0.75
+    transition opacity 0.3s ease
+    &.leader
+      opacity 1.0
+
     > .name
       width 200px
       font-size $lineFontSize
@@ -64,7 +80,7 @@ $white     = #fff
       border-radius 6px
       display inline-block
 
-      width 20px
+      width 23px
 
     > .votes-count
       display inline-block
@@ -99,6 +115,7 @@ $white     = #fff
       left 60px
       size 18px
       border-radius 18px
+      opacity 0
       background-color $white
       z-index 99999
 
@@ -107,21 +124,6 @@ $white     = #fff
     font-size 80px
     font-weight 500
     margin-bottom 25px
-
-    transform scale(1.0, 1.0)
-    // transition 0.3s transform ease
-
-    @keyframes flash-anim
-      30%
-        transform scale(1.5, 1.5)
-      100%
-        transform scale(1.0, 1.0)
-
-
-    &.flash
-      animation flash-anim 0.3s
-      animation-timing-function ease
-
 
   > .label
     font-size 20px

@@ -19,6 +19,6 @@ module.exports = [
   "World Street Wars"
   "Runny Jump"
   "ТерраЛорды"
-  "Игра Марата"
-  "Cyber League"
+  # "Игра Марата"
+  # "Cyber League"
 ]
