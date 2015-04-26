@@ -8,6 +8,7 @@
 }
 .messages-container {
   position: absolute;
+  z-index: 9999;
   right: 10px;
   width: 273px;
   height: 100%;
@@ -68,11 +69,11 @@
   padding-left: 7px;
 }
 .message-header {
-  font-size: 12px;
+  font-size: 14px;
   color: #767688;
 }
 .message-content {
   margin-top: 3px;
-  font-size: 15px;
+  font-size: 16px;
   color: #999;
 }
