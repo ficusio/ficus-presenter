@@ -6,7 +6,7 @@ safeFraction = (a, b) ->
 
 
 NAME_WIDTH    = 200
-BARS_MARGIN   = 31
+BARS_MARGIN   = 38
 BAR_MIN_VALUE = 0.05
 
 BALLS_ANIM_DURATION    = 1000
@@ -31,9 +31,6 @@ module.exports = class CloudPoll
       .sort((d) -> -d)
       .first(3)
       .value()
-
-    # console.log JSON.stringify(@data, null, '  ')
-    # console.log topVotes
 
     winners = _.chain(@data)
       .filter (d) ->
@@ -87,7 +84,10 @@ module.exports = class CloudPoll
   # Перерисовка
   # ---
   updateData: (data) ->
-    barMaxWidth = @$el.find('.contenders').width() - NAME_WIDTH - 20
+    contendersHeight = @$el.find('.contenders').height()
+    contendersWidth  = @$el.find('.contenders').width()
+
+    barMaxWidth = contendersWidth - NAME_WIDTH - 20
 
     # получаем новые данные, смотрим, кто поменялся
     data =  _.sortBy(data, (d) -> -d.count)
@@ -174,10 +174,14 @@ module.exports = class CloudPoll
 
     entry.exit().remove()
 
+    positionFunc = (d,i) ->
+      fullHeight = BARS_MARGIN * (data.length+1)
+
+      y = 0.5*contendersHeight - 0.5*fullHeight + BARS_MARGIN * i
+      "#{y}px"
+
     entryEnter
-      .style 'top', (d, i) ->
-        y = BARS_MARGIN * i
-        "#{y}px"
+      .style 'top', positionFunc
 
     entry.select('.votes')
       .transition()
@@ -193,9 +197,7 @@ module.exports = class CloudPoll
       .transition()
       .duration(REORDER_ANIM_DURATION)
       .delay(BALLS_ANIM_DURATION + BAR_GROW_ANIM_DURATION)
-      .style 'top', (d, i) ->
-        y = BARS_MARGIN * i
-        "#{y}px"
+      .style 'top', positionFunc
 
     setTimeout =>
       entry.classed 'leader', (d, i) ->
