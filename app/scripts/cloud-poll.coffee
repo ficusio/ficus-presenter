@@ -6,7 +6,7 @@ safeFraction = (a, b) ->
 
 
 NAME_WIDTH    = 200
-BARS_MARGIN   = 38
+BARS_MARGIN   = 42
 BAR_MIN_VALUE = 0.05
 
 BALLS_ANIM_DURATION    = 1000
