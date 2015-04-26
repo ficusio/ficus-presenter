@@ -110,7 +110,7 @@ class APIImpl
     @pollId = id
     @poll = poll
     pollState = pollStateFromPoll poll
-    @$pollStateSrc = randomStream 500, 1000, pollState, randomizePollState
+    @$pollStateSrc = randomStream 500, 5000, pollState, randomizePollState
     @$pollState.plug Bacon.later(0, pollState).concat @$pollStateSrc
     undefined
 
@@ -155,19 +155,18 @@ class APIImpl
 
   randomizePollState = (prevPollState) ->
     newTotal = 0
-    newPollState = _.map prevPollState, (opt) ->
+    luckyIndices = _.sample([0...prevPollState.length], 3)
+
+    newPollState = _.map prevPollState, (opt, i) ->
       count = opt.count
-      rand = Math.random()
-      if rand > 0.95
-        count = Math.max 0, count - 1
-      else if rand > 0.5
-        count += 1 + Math.floor 3 * Math.random()
-      newTotal += count
+      ++count if i in luckyIndices
       { count, label: opt.label, color: opt.color }
-    if newTotal == 0
-      idx = Math.floor newPollState.length * Math.random()
-      newPollState[ idx ].count += (newTotal = 1)
-    _.each newPollState, (opt) -> opt.weight = opt.count / newTotal
+
+    _.each newPollState, (opt) ->
+      if newTotal != 0
+        opt.weight = opt.count / newTotal
+      else
+        opt.weight = 0
 
 
   randomMessage = do ->
@@ -183,7 +182,7 @@ class APIImpl
     ]
     -> messages[ Math.floor messages.length * Math.random() ]
 
-  
+
   randomStream = (minIntv, maxIntv, initialValue, valueRandomizer) ->
     $bus = new Bacon.Bus
     lastValue = initialValue
