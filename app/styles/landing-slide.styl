@@ -1,0 +1,52 @@
+@import 'nib'
+
+@keyframes logoAnimation
+  0%
+    transform rotate(45deg)
+    opacity 1
+
+  30%
+    transform rotate(45deg)
+    opacity 1
+  32%
+    transform rotate(0deg) scale(1)
+    opacity 1
+  43%
+    transform translateX(-60px) scale(0.8)
+    opacity 0
+  44%
+    transform translateX(60px) scale(0.8)
+    opacity 0
+  54%
+    transform translateX(0) scale(1)
+    opacity 1
+  57%
+    transform rotate(45deg)
+    opacity 1
+  100%
+    transform rotate(45deg)
+    opacity 1
+
+.landing-slide
+  text-align center
+
+.ficus-logo-anim
+  size 300px 140px
+  background url(/ficus-logo-text.png)
+  background-size contain
+  margin 0 auto
+  position relative
+  display inline-block
+
+  .box
+    position absolute
+    width 70px
+    height 70px
+    background url(/ficus-leaf.png)
+    background-size contain
+    transform rotate(45deg)
+    top 35px
+    left 35px
+    animation logoAnimation 4s infinite
+
+
