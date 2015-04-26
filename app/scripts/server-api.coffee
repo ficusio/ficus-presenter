@@ -19,6 +19,10 @@ module.exports = class ServerAPI
     @$pollState = @_.$pollState.toProp()
 
 
+  getPresentationId: ->
+    return @_.clientData.presentationId || 'none'
+
+
   startPresentation: ->
     console.debug 'api.startPresentation'
     @_.startPresentation()
@@ -141,7 +145,7 @@ class APIImpl
     @send 'finish'
 
   startPoll: (id, poll) ->
-    poll.id = id + Date.now().toString()
+    #poll.id = id + Date.now().toString()
     @send 'poll_start', poll
 
   stopPoll: ->

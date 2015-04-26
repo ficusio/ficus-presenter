@@ -19,6 +19,10 @@ module.exports = class API
     @$pollState = @_.$pollState.toProp()
 
 
+  getPresentationId: ->
+    return "ururu"
+
+
   startPresentation: ->
     console.debug 'api.startPresentation'
     @_.startPresentation()

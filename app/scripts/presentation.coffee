@@ -3,9 +3,6 @@ contenders = require './fixtures/contenders'
 
 plurals = require './utils/plurals'
 
-ALREADY_STARTED_KEY = 'ficus-poll-started'
-PERSIST_POLL_STATE  = yes
-
 module.exports = class Presentation
   constructor: (@api) ->
     Reveal.initialize
@@ -25,7 +22,7 @@ module.exports = class Presentation
       @onSlideChanged(slideName)
 
     @cloudPoll = new CloudPoll('.cloud-poll')
-    @startPoll()
+    #@startPoll()
 
   finishPresentation: ->
     @api.finishPresentation()
@@ -33,12 +30,6 @@ module.exports = class Presentation
   startPoll: ->
     return if @pollActive
     @pollActive = true
-
-    if PERSIST_POLL_STATE
-      alreadyStarted = localStorage.getItem(ALREADY_STARTED_KEY)
-
-      return if alreadyStarted
-      localStorage.setItem(ALREADY_STARTED_KEY, true)
 
     @api.startPoll 'hackathon-winner',
       title: 'Проголосуйте за участников хакатона'
