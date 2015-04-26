@@ -14,10 +14,6 @@ REORDER_ANIM_DURATION  = 500
 BAR_GROW_ANIM_DURATION = 500
 
 
-leadersIdxs = (pollData) ->
-  [0, 1, 2]
-
-
 # ---
 # Голосование
 # ---
@@ -25,6 +21,9 @@ module.exports = class CloudPoll
   constructor: (@el) ->
     @$el = $(@el)
     @data = []
+
+  getWinners: ->
+    return _.first(@data, 7)
 
   # ---
   # Формирует строку с количеством проголосовавших
