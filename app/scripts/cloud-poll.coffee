@@ -32,6 +32,10 @@ module.exports = class CloudPoll
       <div class="votes-count">#{data.count}</div>
     """
 
+
+  calcBoundary: (max) ->
+    10 * Math.ceil(max / 10)
+
   updateData: (data) ->
     barMaxWidth = @$el.find('.contenders').width() - NAME_WIDTH - 20
 
@@ -39,14 +43,23 @@ module.exports = class CloudPoll
 
     root  = d3.select(@el).select('.contenders')
     total = Math.round(d3.sum(data, (d) -> d.count) / 3)
-    max   = 10
+    max   = @calcBoundary(d3.max(data, (d) -> d.count))
 
     summary = d3.select(@el)
       .select('.already-voted')
       .datum(total)
 
-    summary.select('.number')
+    number = summary.select('.number')
+
+    number
+      .classed(flash: true)
       .text (c) -> c
+
+    # Плохо!
+    setTimeout =>
+      number.classed(flash: false)
+    , 300
+
     summary.select('.label')
       .text(@pollTotalText)
 
@@ -70,7 +83,7 @@ module.exports = class CloudPoll
 
     entry.select('.votes-count')
       .transition()
-      .delay(500)
+      .delay(0)
       .text (d) -> d.count
 
     entry.select('.votes')

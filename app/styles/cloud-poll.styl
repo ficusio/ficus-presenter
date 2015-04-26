@@ -1,3 +1,6 @@
+@import 'nib'
+
+
 $blueprint = #13B4F0
 $white     = #fff
 
@@ -20,62 +23,64 @@ $white     = #fff
     flex-flow row nowrap
     align-items center
 
-    background-color rgba(0,0,0,0.1)
-
     > .contenders
+      height 100%
       flex 4 0
 
     > .summary
       flex 2 0
-      border-left 1px dashed $white
 
 // --
 // Полоска чарта голосования
 // --
-.cloud-poll .contenders > .entry
-  display flex
-  flex-flow row nowrap
-  align-items center
+.cloud-poll .contenders
+  position relative
 
-  margin-bottom 10px
-  line-height 1.222
+  > .entry
+    display flex
+    flex-flow row nowrap
+    align-items center
 
-  $lineFontSize = 20px
+    position absolute
+    top 0
+    left 0
+    line-height 1.222
 
-  > .name
-    width 200px
-    font-size $lineFontSize
-    margin-right 9px
-    text-align right
-    flex-shrink 0
-    white-space nowrap
-    overflow hidden
-    text-overflow ellipsis
+    $lineFontSize = 20px
 
-  > .votes
-    background-color $white
-    height 6px
-    width 500px
-    border-radius 6px
-    display inline-block
+    > .name
+      width 200px
+      font-size $lineFontSize
+      margin-right 9px
+      text-align right
+      flex-shrink 0
+      white-space nowrap
+      overflow hidden
+      text-overflow ellipsis
 
-    width 100px
+    > .votes
+      background-color $white
+      height 6px
+      border-radius 6px
+      display inline-block
 
-  > .votes-count
-    display inline-block
-    margin-left -9px
-    font-size $lineFontSize
-    border-radius 20px
-    background-color $white
-    color $blueprint
-    padding-right 8px
-    padding-left 8px
-    min-width 10px
-    height 25px
-    line-height 26px
-    text-align center
-    font-weight 500
-    display inline-block
+      width 20px
+
+    > .votes-count
+      display inline-block
+      margin-left -9px
+      font-size $lineFontSize
+      border-radius 20px
+      background-color $white
+      color $blueprint
+      padding-right 8px
+      padding-left 8px
+      min-width 10px
+      height 25px
+      line-height 26px
+      text-align center
+      font-weight 500
+      display inline-block
 
 // ---
 // Уже проголосовали
@@ -88,6 +93,21 @@ $white     = #fff
     font-size 80px
     font-weight 500
     margin-bottom 25px
+
+    transform scale(1.0, 1.0)
+    // transition 0.3s transform ease
+
+    @keyframes flash-anim
+      30%
+        transform scale(1.5, 1.5)
+      100%
+        transform scale(1.0, 1.0)
+
+
+    &.flash
+      animation flash-anim 0.3s
+      animation-timing-function ease
+
 
   > .label
     font-size 20px
