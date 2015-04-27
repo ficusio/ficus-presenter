@@ -28,7 +28,7 @@ module.exports = class CloudPoll
       .map((d) -> d.count)
       .uniq()
       .filter (d) -> d != 0
-      .sort((d) -> -d)
+      .sortBy((d) -> -d)
       .first(3)
       .value()
 
